@@ -22,3 +22,13 @@ Thumbs.db
 appsettings.*.local.json
 *.pfx
 .env
+
+# Rider machine-local state (unanchored so this also catches the nested
+# .idea/.idea.<SolutionName>/.idea/ copy Rider creates per opened solution,
+# not just the top-level .idea/ one)
+workspace.xml
+shelf/
+httpRequests/
+contentModel.xml
+dataSources.local.xml
+projectSettingsUpdater.xml
