@@ -1,0 +1,24 @@
+# Build output (per-project, any nesting depth)
+[Bb]in/
+[Oo]bj/
+
+# User-specific IDE/editor files (not the shared project settings)
+*.user
+*.suo
+.vs/
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# NuGet
+*.nupkg
+.nuget/
+
+# Logs
+*.log
+
+# Local-only secrets/config overrides (never commit real secrets or connection strings)
+appsettings.*.local.json
+*.pfx
+.env
