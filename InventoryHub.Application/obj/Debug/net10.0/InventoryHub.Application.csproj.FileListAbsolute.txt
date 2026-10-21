@@ -1,0 +1,15 @@
+/Users/taras/Projects/learning/Inventory/InventoryHub.Application/bin/Debug/net10.0/InventoryHub.Application.deps.json
+/Users/taras/Projects/learning/Inventory/InventoryHub.Application/bin/Debug/net10.0/InventoryHub.Application.dll
+/Users/taras/Projects/learning/Inventory/InventoryHub.Application/bin/Debug/net10.0/InventoryHub.Application.pdb
+/Users/taras/Projects/learning/Inventory/InventoryHub.Application/bin/Debug/net10.0/InventoryHub.Domain.dll
+/Users/taras/Projects/learning/Inventory/InventoryHub.Application/bin/Debug/net10.0/InventoryHub.Domain.pdb
+/Users/taras/Projects/learning/Inventory/InventoryHub.Application/obj/Debug/net10.0/InventoryHub.Application.csproj.AssemblyReference.cache
+/Users/taras/Projects/learning/Inventory/InventoryHub.Application/obj/Debug/net10.0/InventoryHub.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/taras/Projects/learning/Inventory/InventoryHub.Application/obj/Debug/net10.0/InventoryHub.Application.AssemblyInfoInputs.cache
+/Users/taras/Projects/learning/Inventory/InventoryHub.Application/obj/Debug/net10.0/InventoryHub.Application.AssemblyInfo.cs
+/Users/taras/Projects/learning/Inventory/InventoryHub.Application/obj/Debug/net10.0/InventoryHub.Application.csproj.CoreCompileInputs.cache
+/Users/taras/Projects/learning/Inventory/InventoryHub.Application/obj/Debug/net10.0/Inventor.656A09F9.Up2Date
+/Users/taras/Projects/learning/Inventory/InventoryHub.Application/obj/Debug/net10.0/InventoryHub.Application.dll
+/Users/taras/Projects/learning/Inventory/InventoryHub.Application/obj/Debug/net10.0/refint/InventoryHub.Application.dll
+/Users/taras/Projects/learning/Inventory/InventoryHub.Application/obj/Debug/net10.0/InventoryHub.Application.pdb
+/Users/taras/Projects/learning/Inventory/InventoryHub.Application/obj/Debug/net10.0/ref/InventoryHub.Application.dll

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="InventoryHub.Api/InventoryHub.Api.csproj" />
+  <Project Path="InventoryHub.Application/InventoryHub.Application.csproj" />
+  <Project Path="InventoryHub.Domain/InventoryHub.Domain.csproj" />
+  <Project Path="InventoryHub.Infrastructure/InventoryHub.Infrastructure.csproj" />
+</Solution>

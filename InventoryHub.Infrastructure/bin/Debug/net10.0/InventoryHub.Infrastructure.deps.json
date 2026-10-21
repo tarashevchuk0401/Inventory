@@ -1,0 +1,56 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "InventoryHub.Infrastructure/1.0.0": {
+        "dependencies": {
+          "InventoryHub.Application": "1.0.0",
+          "InventoryHub.Domain": "1.0.0"
+        },
+        "runtime": {
+          "InventoryHub.Infrastructure.dll": {}
+        }
+      },
+      "InventoryHub.Application/1.0.0": {
+        "dependencies": {
+          "InventoryHub.Domain": "1.0.0"
+        },
+        "runtime": {
+          "InventoryHub.Application.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "InventoryHub.Domain/1.0.0": {
+        "runtime": {
+          "InventoryHub.Domain.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "InventoryHub.Infrastructure/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "InventoryHub.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "InventoryHub.Domain/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

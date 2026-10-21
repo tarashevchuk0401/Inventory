@@ -1,0 +1,17 @@
+/Users/taras/Projects/learning/Inventory/InventoryHub.Infrastructure/bin/Debug/net10.0/InventoryHub.Infrastructure.deps.json
+/Users/taras/Projects/learning/Inventory/InventoryHub.Infrastructure/bin/Debug/net10.0/InventoryHub.Infrastructure.dll
+/Users/taras/Projects/learning/Inventory/InventoryHub.Infrastructure/bin/Debug/net10.0/InventoryHub.Infrastructure.pdb
+/Users/taras/Projects/learning/Inventory/InventoryHub.Infrastructure/bin/Debug/net10.0/InventoryHub.Application.dll
+/Users/taras/Projects/learning/Inventory/InventoryHub.Infrastructure/bin/Debug/net10.0/InventoryHub.Domain.dll
+/Users/taras/Projects/learning/Inventory/InventoryHub.Infrastructure/bin/Debug/net10.0/InventoryHub.Domain.pdb
+/Users/taras/Projects/learning/Inventory/InventoryHub.Infrastructure/bin/Debug/net10.0/InventoryHub.Application.pdb
+/Users/taras/Projects/learning/Inventory/InventoryHub.Infrastructure/obj/Debug/net10.0/InventoryHub.Infrastructure.csproj.AssemblyReference.cache
+/Users/taras/Projects/learning/Inventory/InventoryHub.Infrastructure/obj/Debug/net10.0/InventoryHub.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+/Users/taras/Projects/learning/Inventory/InventoryHub.Infrastructure/obj/Debug/net10.0/InventoryHub.Infrastructure.AssemblyInfoInputs.cache
+/Users/taras/Projects/learning/Inventory/InventoryHub.Infrastructure/obj/Debug/net10.0/InventoryHub.Infrastructure.AssemblyInfo.cs
+/Users/taras/Projects/learning/Inventory/InventoryHub.Infrastructure/obj/Debug/net10.0/InventoryHub.Infrastructure.csproj.CoreCompileInputs.cache
+/Users/taras/Projects/learning/Inventory/InventoryHub.Infrastructure/obj/Debug/net10.0/Inventor.1455C73C.Up2Date
+/Users/taras/Projects/learning/Inventory/InventoryHub.Infrastructure/obj/Debug/net10.0/InventoryHub.Infrastructure.dll
+/Users/taras/Projects/learning/Inventory/InventoryHub.Infrastructure/obj/Debug/net10.0/refint/InventoryHub.Infrastructure.dll
+/Users/taras/Projects/learning/Inventory/InventoryHub.Infrastructure/obj/Debug/net10.0/InventoryHub.Infrastructure.pdb
+/Users/taras/Projects/learning/Inventory/InventoryHub.Infrastructure/obj/Debug/net10.0/ref/InventoryHub.Infrastructure.dll
