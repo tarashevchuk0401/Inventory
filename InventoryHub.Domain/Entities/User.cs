@@ -2,15 +2,36 @@ namespace InventoryHub.Domain.Entities;
 
 public class User
 {
-    private Guid Id { get; set; }
+    public Guid Id { get; set; }
 
-    private string FirstName { get; set; }
+    public string FirstName { get; set; }
 
-    private string LastName { get; set; }
+    public string LastName { get; set; }
 
-    private string Email { get; set; }
+    public string Email { get; set; }
 
-    private string HashedPassword { get; set; }
+    public string HashedPassword { get; set; }
 
-    private string Role { get; set; }
+    public string Role { get; set; }
+
+
+    public static User Create(
+        string firstName,
+        string lastName,
+        string email,
+        string passwordHash,
+        string role)
+    {
+
+
+        return new User
+        {
+            Id = Guid.NewGuid(),
+            FirstName = firstName.Trim(),
+            LastName = lastName.Trim(),
+            Email = email,
+            HashedPassword = passwordHash,
+            Role = role
+        };
+    }
 }
