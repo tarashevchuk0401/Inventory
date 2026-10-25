@@ -1,6 +1,7 @@
 using InventoryHub.Application.Dto;
-using InventoryHub.Application.Services;
-using InventoryHub.Infrastructure.Repository;
+using InventoryHub.Application.Repositories;
+
+namespace InventoryHub.Application.Services;
 
 public class UserService(IUserRepository usersRepository) : IUserService
 {
@@ -18,5 +19,19 @@ public class UserService(IUserRepository usersRepository) : IUserService
                 Role = u.Role.ToString()
             })
             .ToList();
+    }
+
+    public async Task<UserDto> GetUser(Guid id)
+    {
+        var user = await usersRepository.GetUser(id) ?? throw new Exception("No User found");
+
+        return new UserDto
+        {
+            Id = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email,
+            Role = user.Role
+        };
     }
 }

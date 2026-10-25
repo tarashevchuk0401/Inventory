@@ -2,4 +2,7 @@
 
 GET {{InventoryHub.Api_HostAddress}}/getAllUsers/
 Accept: application/json
-###
+###\
+
+GET {{InventoryHub.Api_HostAddress}}/getUser/1
+Accept: application/json

@@ -16,6 +16,7 @@ public class User
 
 
     public static User Create(
+        string id,
         string firstName,
         string lastName,
         string email,
@@ -26,7 +27,7 @@ public class User
 
         return new User
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.Parse(id),
             FirstName = firstName.Trim(),
             LastName = lastName.Trim(),
             Email = email,

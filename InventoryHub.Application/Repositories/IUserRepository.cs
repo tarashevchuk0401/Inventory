@@ -1,9 +1,9 @@
-using InventoryHub.Application.Dto;
 using InventoryHub.Domain.Entities;
 
-namespace InventoryHub.Infrastructure.Repository;
+namespace InventoryHub.Application.Repositories;
 
 public interface IUserRepository
 {
     Task<List<User>> GetAllAsync();
+    Task<User> GetUser(Guid id);
 }

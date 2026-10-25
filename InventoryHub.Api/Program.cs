@@ -1,4 +1,6 @@
-using InventoryHub.Infrastructure.Repository;
+using InventoryHub.Application.Repositories;
+using InventoryHub.Application.Services;
+using InventoryHub.Infrastructure.Repositories.InMemory;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +10,8 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-builder.Services.AddSingleton<IUserRepository, InMemoryUserRepository>(); // now
+builder.Services.AddSingleton<IUserRepository, UserInMemoryRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 
 var app = builder.Build();

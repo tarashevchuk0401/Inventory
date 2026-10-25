@@ -6,9 +6,9 @@ namespace InventoryHub.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class MainUserController(IUserService userService) : ControllerBase
+public class UserController(IUserService userService) : ControllerBase
 {
-    [HttpGet(Name = "getAll")]
+    [HttpGet("getAll")]
     public Task<List<UserDto>> GetAll()
     {
         return userService.GetAllAsync();
