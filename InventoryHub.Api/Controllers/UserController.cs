@@ -19,4 +19,11 @@ public class UserController(IUserService userService) : ControllerBase
     {
         return userService.GetUser(id);
     }
+
+    [HttpPost("create")]
+    public async Task<ActionResult<UserDto>> CreateUser(CreateUserDto userDto)
+    {
+        var created = await userService.CreateUser(userDto);
+        return CreatedAtAction(nameof(GetUser), new { id = created.Id }, created);
+    }
 }

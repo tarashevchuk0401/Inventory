@@ -1,7 +1,6 @@
 using InventoryHub.Api.Middleware;
-using InventoryHub.Application.Repositories;
-using InventoryHub.Application.Services;
-using InventoryHub.Infrastructure.Repositories.InMemory;
+using InventoryHub.Application;
+using InventoryHub.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,8 +13,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddExceptionHandler<AppExceptionHandler>();
 builder.Services.AddProblemDetails();
 
-builder.Services.AddSingleton<IUserRepository, UserInMemoryRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure();
 
 
 var app = builder.Build();

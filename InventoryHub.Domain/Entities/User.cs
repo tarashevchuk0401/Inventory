@@ -14,17 +14,32 @@ public class User
 
     public string Role { get; set; }
 
+    public static User Create(
+        string firstName,
+        string lastName,
+        string email,
+        string passwordHash
+    )
+    {
+        return new User
+        {
+            Id = Guid.NewGuid(),
+            FirstName = firstName.Trim(),
+            LastName = lastName.Trim(),
+            Email = email,
+            HashedPassword = passwordHash,
+            Role = "user"
+        };
+    }
 
     public static User Create(
         string id,
         string firstName,
         string lastName,
         string email,
-        string passwordHash,
-        string role)
+        string passwordHash
+    )
     {
-
-
         return new User
         {
             Id = Guid.Parse(id),
@@ -32,7 +47,7 @@ public class User
             LastName = lastName.Trim(),
             Email = email,
             HashedPassword = passwordHash,
-            Role = role
+            Role = "user"
         };
     }
 }
