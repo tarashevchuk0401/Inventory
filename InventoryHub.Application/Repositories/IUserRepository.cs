@@ -5,5 +5,5 @@ namespace InventoryHub.Application.Repositories;
 public interface IUserRepository
 {
     Task<List<User>> GetAllAsync();
-    Task<User> GetUser(Guid id);
+    Task<User?> GetUser(Guid id);
 }

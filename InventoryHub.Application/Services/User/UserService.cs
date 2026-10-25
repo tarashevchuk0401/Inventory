@@ -1,4 +1,5 @@
 using InventoryHub.Application.Dto;
+using InventoryHub.Application.Exceptions;
 using InventoryHub.Application.Repositories;
 
 namespace InventoryHub.Application.Services;
@@ -23,7 +24,7 @@ public class UserService(IUserRepository usersRepository) : IUserService
 
     public async Task<UserDto> GetUser(Guid id)
     {
-        var user = await usersRepository.GetUser(id) ?? throw new KeyNotFoundException("No User found");
+        var user = await usersRepository.GetUser(id) ?? throw new NotFoundException("No User found");
 
         return new UserDto
         {

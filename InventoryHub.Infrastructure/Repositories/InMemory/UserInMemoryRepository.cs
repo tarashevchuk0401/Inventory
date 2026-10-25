@@ -19,7 +19,7 @@ public class UserInMemoryRepository : IUserRepository
         return Task.FromResult(_users);
     }
 
-    public Task<User> GetUser(Guid id)
+    public Task<User?> GetUser(Guid id)
     {
         return Task.FromResult(_users.FirstOrDefault(u => u.Id == id));
     }

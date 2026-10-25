@@ -14,5 +14,4 @@
     <ProjectReference Include="..\InventoryHub.Application\InventoryHub.Application.csproj" />
     <ProjectReference Include="..\InventoryHub.Infrastructure\InventoryHub.Infrastructure.csproj" />
   </ItemGroup>
-
 </Project>
