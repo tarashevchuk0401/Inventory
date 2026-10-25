@@ -24,7 +24,7 @@ InventoryHub.Domain           — plain entities, no dependencies
 
 - [x] Solution scaffold — 4 projects, references wired
 - [x] Swagger UI
-- [ ] `User` entity + `GET /api/users` — first vertical slice (in-memory repo), to see the full `Controller → Service → IRepository → Repository` flow and where the DI container substitutes the concrete implementation
+- [x ] `User` entity + `GET /api/users` — first vertical slice (in-memory repo), to see the full `Controller → Service → IRepository → Repository` flow and where the DI container substitutes the concrete implementation
 - [ ] JWT authentication — hashed passwords, login endpoint issuing a JWT, `[Authorize]` on protected endpoints
 - [ ] Product / Order / Supplier entities and their endpoints
 - [ ] Swap in-memory repositories for EF Core + PostgreSQL, first migration
