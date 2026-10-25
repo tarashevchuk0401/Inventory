@@ -23,7 +23,7 @@ public class UserService(IUserRepository usersRepository) : IUserService
 
     public async Task<UserDto> GetUser(Guid id)
     {
-        var user = await usersRepository.GetUser(id) ?? throw new Exception("No User found");
+        var user = await usersRepository.GetUser(id) ?? throw new KeyNotFoundException("No User found");
 
         return new UserDto
         {

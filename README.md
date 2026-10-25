@@ -1,5 +1,7 @@
 # InventoryHub
 
+## - Swagger :http://localhost:5184/swagger/index.html
+
 An inventory & order management Web API — learning project built incrementally while working through a .NET learning plan (full curriculum lives in a separate repo: `~/Projects/learning/dotNet/learning-plan.md`).
 
 ## Architecture
@@ -21,7 +23,7 @@ InventoryHub.Domain           — plain entities, no dependencies
 ## Build plan
 
 - [x] Solution scaffold — 4 projects, references wired
-- [ ] Swagger UI
+- [x] Swagger UI
 - [ ] `User` entity + `GET /api/users` — first vertical slice (in-memory repo), to see the full `Controller → Service → IRepository → Repository` flow and where the DI container substitutes the concrete implementation
 - [ ] JWT authentication — hashed passwords, login endpoint issuing a JWT, `[Authorize]` on protected endpoints
 - [ ] Product / Order / Supplier entities and their endpoints
