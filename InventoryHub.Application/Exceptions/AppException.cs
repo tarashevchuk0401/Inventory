@@ -7,6 +7,7 @@ public abstract class AppException(string message, int statusCode) : Exception(m
 
 
 public class BadRequestException(string message) : AppException(message, 400);
+public class UnauthorizedException(string message) : AppException(message, 401);
 public class AccessDeniedException(string message) : AppException(message, 403);
 public class NotFoundException(string message) : AppException(message, 404);
 

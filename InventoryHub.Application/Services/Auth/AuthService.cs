@@ -30,11 +30,10 @@ public class AuthService(IUserRepository usersRepository) : IAuthService
 
     public async Task<string> SignIn(SignInDto dto)
     {
-        var isEmailExist = await usersRepository.ExistsByEmailAsync(dto.Email);
-        var userMatch = await usersRepository.ChackPassword(dto.Email, dto.Password);
-        if (!isEmailExist || !userMatch)
+        var isValid = await usersRepository.CheckPassword(dto.Email, dto.Password);
+        if (!isValid)
         {
-            throw new AccessDeniedException("Email or password is wrong");
+            throw new UnauthorizedException("Email or password is wrong");
         }
 
         return "Hi";

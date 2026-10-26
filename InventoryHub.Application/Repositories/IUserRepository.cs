@@ -8,6 +8,6 @@ public interface IUserRepository
     Task<User?> GetUser(Guid id);
 
     Task<bool> ExistsByEmailAsync(string email);
-    Task<bool> ChackPassword(string email, string password);
+    Task<bool> CheckPassword(string email, string password);
     Task AddAsync(User user);
 }

@@ -27,7 +27,7 @@ public class UserInMemoryRepository : IUserRepository
         return Task.FromResult(_users.Any(u => u.Email == email));
     }
 
-    public Task<bool> ChackPassword(string email, string password)
+    public Task<bool> CheckPassword(string email, string password)
     {
         return Task.FromResult(_users.Any(u => u.Email == email && u.HashedPassword == password));
     }
