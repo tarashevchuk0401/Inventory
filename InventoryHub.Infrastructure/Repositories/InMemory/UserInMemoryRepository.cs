@@ -7,8 +7,8 @@ public class UserInMemoryRepository : IUserRepository
 {
     private readonly List<User> _users = new()
     {
-        User.Create("11111111-1111-1111-1111-111111111111", "Ann", "Lee", "ann@example.com", "hashed-password"),
-        User.Create("22222222-2222-2222-2222-222222222222", "Bob", "Smith", "bob@example.com", "hashed-password")
+        User.Create("11111111-1111-1111-1111-111111111111", "Ann", "Lee", "ann@example.com", "password"),
+        User.Create("22222222-2222-2222-2222-222222222222", "Bob", "Smith", "bob@example.com", "password")
     };
 
 
@@ -25,6 +25,11 @@ public class UserInMemoryRepository : IUserRepository
     public Task<bool> ExistsByEmailAsync(string email)
     {
         return Task.FromResult(_users.Any(u => u.Email == email));
+    }
+
+    public Task<bool> ChackPassword(string email, string password)
+    {
+        return Task.FromResult(_users.Any(u => u.Email == email && u.HashedPassword == password));
     }
 
     public Task AddAsync(User user)

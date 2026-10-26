@@ -1,11 +1,42 @@
 using InventoryHub.Application.Dto;
+using InventoryHub.Application.Exceptions;
+using InventoryHub.Application.Repositories;
+using InventoryHub.Domain.Entities;
 
 namespace InventoryHub.Application.Services.Auth;
 
-public class AuthService : IAuthService
+public class AuthService(IUserRepository usersRepository) : IAuthService
 {
-    public Task<UserDto> SignUp(CreateUserDto dto)
+    public async Task<UserDto> SignUp(CreateUserDto userDto)
     {
-        throw new NotImplementedException();
+        var isEmailExist = await usersRepository.ExistsByEmailAsync(userDto.Email);
+        if (isEmailExist)
+        {
+            throw new ConflictException("EMAIL already occupied");
+        }
+
+        var user = User.Create(userDto.FirstName, userDto.LastName, userDto.Email, userDto.Password);
+        await usersRepository.AddAsync(user);
+
+        return new UserDto
+        {
+            Id = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email,
+            Role = user.Role
+        };
+    }
+
+    public async Task<string> SignIn(SignInDto dto)
+    {
+        var isEmailExist = await usersRepository.ExistsByEmailAsync(dto.Email);
+        var userMatch = await usersRepository.ChackPassword(dto.Email, dto.Password);
+        if (!isEmailExist || !userMatch)
+        {
+            throw new AccessDeniedException("Email or password is wrong");
+        }
+
+        return "Hi";
     }
 }
