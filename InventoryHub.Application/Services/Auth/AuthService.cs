@@ -1,11 +1,12 @@
 using InventoryHub.Application.Dto;
 using InventoryHub.Application.Exceptions;
 using InventoryHub.Application.Repositories;
+using InventoryHub.Application.Services.Hasher;
 using InventoryHub.Domain.Entities;
 
 namespace InventoryHub.Application.Services.Auth;
 
-public class AuthService(IUserRepository usersRepository) : IAuthService
+public class AuthService(IUserRepository usersRepository, IPasswordHasher passwordHasher) : IAuthService
 {
     public async Task<UserDto> SignUp(CreateUserDto userDto)
     {
@@ -15,7 +16,9 @@ public class AuthService(IUserRepository usersRepository) : IAuthService
             throw new ConflictException("EMAIL already occupied");
         }
 
-        var user = User.Create(userDto.FirstName, userDto.LastName, userDto.Email, userDto.Password);
+        var hashedPassword = passwordHasher.Hash(userDto.Password);
+
+        var user = User.Create(userDto.FirstName, userDto.LastName, userDto.Email, hashedPassword);
         await usersRepository.AddAsync(user);
 
         return new UserDto
@@ -30,8 +33,8 @@ public class AuthService(IUserRepository usersRepository) : IAuthService
 
     public async Task<string> SignIn(SignInDto dto)
     {
-        var isValid = await usersRepository.CheckPassword(dto.Email, dto.Password);
-        if (!isValid)
+        var user = await usersRepository.GetUserByEmail(dto.Email);
+        if (user is null || !passwordHasher.Compare(dto.Password, user.HashedPassword))
         {
             throw new UnauthorizedException("Email or password is wrong");
         }

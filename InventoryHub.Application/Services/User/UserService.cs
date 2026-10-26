@@ -1,11 +1,12 @@
 using InventoryHub.Application.Dto;
 using InventoryHub.Application.Exceptions;
 using InventoryHub.Application.Repositories;
+using InventoryHub.Application.Services.Hasher;
 using InventoryHub.Domain.Entities;
 
 namespace InventoryHub.Application.Services;
 
-public class UserService(IUserRepository usersRepository) : IUserService
+public class UserService(IUserRepository usersRepository, IPasswordHasher passwordHasher) : IUserService
 {
     public async Task<List<UserDto>> GetAllAsync()
     {
@@ -45,7 +46,9 @@ public class UserService(IUserRepository usersRepository) : IUserService
             throw new ConflictException("EMAIL already occupied");
         }
 
-        var user = User.Create(userDto.FirstName, userDto.LastName, userDto.Email, userDto.Password);
+        var hashedPassword = passwordHasher.Hash(userDto.Password);
+
+        var user = User.Create(userDto.FirstName, userDto.LastName, userDto.Email, hashedPassword);
         await usersRepository.AddAsync(user);
 
         return new UserDto

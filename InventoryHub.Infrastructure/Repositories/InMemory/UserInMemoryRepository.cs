@@ -7,8 +7,10 @@ public class UserInMemoryRepository : IUserRepository
 {
     private readonly List<User> _users = new()
     {
-        User.Create("11111111-1111-1111-1111-111111111111", "Ann", "Lee", "ann@example.com", "password"),
-        User.Create("22222222-2222-2222-2222-222222222222", "Bob", "Smith", "bob@example.com", "password")
+        User.Create("11111111-1111-1111-1111-111111111111", "Ann", "Lee", "ann@example.com",
+            BCrypt.Net.BCrypt.HashPassword("password")),
+        User.Create("22222222-2222-2222-2222-222222222222", "Bob", "Smith", "bob@example.com",
+            BCrypt.Net.BCrypt.HashPassword("password"))
     };
 
 
@@ -22,14 +24,14 @@ public class UserInMemoryRepository : IUserRepository
         return Task.FromResult(_users.FirstOrDefault(u => u.Id == id));
     }
 
+    public Task<User?> GetUserByEmail(string email)
+    {
+        return Task.FromResult(_users.FirstOrDefault(u => u.Email == email));
+    }
+
     public Task<bool> ExistsByEmailAsync(string email)
     {
         return Task.FromResult(_users.Any(u => u.Email == email));
-    }
-
-    public Task<bool> CheckPassword(string email, string password)
-    {
-        return Task.FromResult(_users.Any(u => u.Email == email && u.HashedPassword == password));
     }
 
     public Task AddAsync(User user)
