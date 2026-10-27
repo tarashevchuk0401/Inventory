@@ -1,5 +1,6 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 
 namespace InventoryHub.Api.Extensions;
@@ -24,6 +25,14 @@ public static class JwtAuthenticationExtensions
                         Encoding.UTF8.GetBytes(config["Jwt:Key"]!))
                 };
             });
+
+        // Require authentication by default on every endpoint; opt out explicitly with [AllowAnonymous].
+        services.AddAuthorization(options =>
+        {
+            options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+        });
 
         return services;
     }

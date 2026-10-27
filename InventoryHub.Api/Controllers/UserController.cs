@@ -1,6 +1,5 @@
 using InventoryHub.Application.Dto;
 using InventoryHub.Application.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryHub.Api.Controllers;
@@ -9,7 +8,6 @@ namespace InventoryHub.Api.Controllers;
 [Route("[controller]")]
 public class UserController(IUserService userService) : ControllerBase
 {
-    [Authorize]
     [HttpGet("getAll")]
     public Task<List<UserDto>> GetAll()
     {
