@@ -2,11 +2,15 @@ using InventoryHub.Application.Dto;
 using InventoryHub.Application.Exceptions;
 using InventoryHub.Application.Repositories;
 using InventoryHub.Application.Services.Hasher;
+using InventoryHub.Application.Services.JWT;
 using InventoryHub.Domain.Entities;
 
 namespace InventoryHub.Application.Services.Auth;
 
-public class AuthService(IUserRepository usersRepository, IPasswordHasher passwordHasher) : IAuthService
+public class AuthService(
+    IUserRepository usersRepository,
+    IPasswordHasher passwordHasher,
+    IJwtTokenGenerator jwtTokenGenerator) : IAuthService
 {
     public async Task<UserDto> SignUp(CreateUserDto userDto)
     {
@@ -39,6 +43,6 @@ public class AuthService(IUserRepository usersRepository, IPasswordHasher passwo
             throw new UnauthorizedException("Email or password is wrong");
         }
 
-        return "Hi";
+        return jwtTokenGenerator.CreateToken(user);
     }
 }
