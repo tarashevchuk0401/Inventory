@@ -15,7 +15,7 @@ public class JwtTokenGenerator(IConfiguration config) : IJwtTokenGenerator
         var claims = new List<Claim>
         {
             new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new(JwtRegisteredClaimNames.Profile, user.Role),
+            new(ClaimTypes.Role, user.Role),
         };
         var key   = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]!));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
