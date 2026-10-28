@@ -16,7 +16,7 @@ builder.Services.AddProblemDetails();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
 
-builder.Services.AddJwtAuthentication(builder.Configuration);
+// builder.Services.AddJwtAuthentication(builder.Configuration);
 
 var app = builder.Build();
 
