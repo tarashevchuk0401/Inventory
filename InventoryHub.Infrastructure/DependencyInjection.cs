@@ -13,6 +13,11 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         services.AddSingleton<IUserRepository, UserInMemoryRepository>();
+        services.AddSingleton<ISupplierRepository, SupplierInMemoryRepository>();
+        services.AddSingleton<IProductRepository, ProductInMemoryRepository>();
+        services.AddSingleton<ICustomerRepository, CustomerInMemoryRepository>();
+        services.AddSingleton<IOrderRepository, OrderInMemoryRepository>();
+        services.AddSingleton<IOrderItemRepository, OrderItemInMemoryRepository>();
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 
