@@ -1,17 +1,23 @@
 using InventoryHub.Application.Repositories;
 using InventoryHub.Application.Services.Hasher;
 using InventoryHub.Application.Services.JWT;
+using InventoryHub.Infrastructure.Persistance;
 using InventoryHub.Infrastructure.Repositories.InMemory;
 using InventoryHub.Infrastructure.Services.Hasher;
 using InventoryHub.Infrastructure.Services.JWT;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace InventoryHub.Infrastructure;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseNpgsql(configuration.GetConnectionString("Default")));
+
         services.AddSingleton<IUserRepository, UserInMemoryRepository>();
         services.AddSingleton<ISupplierRepository, SupplierInMemoryRepository>();
         services.AddSingleton<IProductRepository, ProductInMemoryRepository>();
