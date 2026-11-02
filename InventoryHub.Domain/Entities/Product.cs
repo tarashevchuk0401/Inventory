@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace InventoryHub.Domain.Entities;
 
 public class Product
@@ -6,7 +8,11 @@ public class Product
     public string Name { get; set; }
     public decimal Price { get; set; }
     public int StockQuantity { get; set; }
+
     public Guid SupplierId { get; set; }
+    [ForeignKey(nameof(SupplierId))]
+    public Supplier Supplier { get; set; }
+
     public Guid CategoryId { get; set; }
 
     public static Product Create(

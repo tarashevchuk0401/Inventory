@@ -3,14 +3,25 @@ using InventoryHub.Application.Exceptions;
 using InventoryHub.Application.Repositories;
 using InventoryHub.Application.Services.Hasher;
 using InventoryHub.Domain.Entities;
+using Microsoft.Extensions.Logging;
 
 namespace InventoryHub.Application.Services;
 
-public class UserService(IUserRepository usersRepository, IPasswordHasher passwordHasher) : IUserService
+public class UserService(IUserRepository usersRepository, IPasswordHasher passwordHasher, ILogger<UserService> logger)
+    : IUserService
 {
     public async Task<List<UserDto>> GetAllAsync()
     {
         var all = await usersRepository.GetAllAsync();
+        all.ForEach(u =>
+        {
+
+            logger.LogInformation("GET1: {UserId} {FirstName}", u.Id, u.FirstName);
+
+
+
+            logger.LogInformation($"GET2: {u.Id}");
+        });
 
         return all
             .Select(u => new UserDto

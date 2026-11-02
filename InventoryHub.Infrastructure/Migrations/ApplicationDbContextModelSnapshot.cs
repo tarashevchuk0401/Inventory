@@ -114,6 +114,8 @@ namespace InventoryHub.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("SupplierId");
+
                     b.ToTable("Products");
                 });
 
@@ -176,9 +178,25 @@ namespace InventoryHub.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("InventoryHub.Domain.Entities.Product", b =>
+                {
+                    b.HasOne("InventoryHub.Domain.Entities.Supplier", "Supplier")
+                        .WithMany("Products")
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Supplier");
+                });
+
             modelBuilder.Entity("InventoryHub.Domain.Entities.Order", b =>
                 {
                     b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("InventoryHub.Domain.Entities.Supplier", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }

@@ -6,6 +6,8 @@ public class Supplier
     public string Email { get; set; }
     public string Name { get; set; }
 
+    public ICollection<Product> Products { get; set; } = new List<Product>();
+
     public static Supplier Create(
         string email,
         string name

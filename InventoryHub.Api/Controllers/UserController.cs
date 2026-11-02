@@ -6,11 +6,12 @@ namespace InventoryHub.Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class UserController(IUserService userService) : ControllerBase
+public class UserController(IUserService userService, ILogger<UserController> logger) : ControllerBase
 {
     [HttpGet("getAll")]
     public Task<List<UserDto>> GetAll()
     {
+        logger.LogInformation("Logger is here");
         return userService.GetAllAsync();
     }
 
