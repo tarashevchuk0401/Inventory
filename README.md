@@ -60,8 +60,53 @@ InventoryHub.Domain           — plain entities, no dependencies
 
 ## Running locally
 
+### Prerequisites
+
+- [.NET 10 SDK](https://dotnet.microsoft.com/download)
+- PostgreSQL running locally on port `5432` (only needed if you want the database-backed `Product` repository — see [Switching between in-memory and database](#switching-between-in-memory-and-database) below; everything else still works without it)
+
+### 1. Configure secrets
+
+Two values aren't committed to the repo (connection string, JWT signing key) — they're kept in [.NET user-secrets](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets), a local-only file outside the repo. Set them once, from the repo root:
+
+```bash
+dotnet user-secrets set "ConnectionStrings:Default" "Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=postgres" --project InventoryHub.Api
+dotnet user-secrets set "Jwt:Key" "use-a-long-random-secret-at-least-32-characters!!" --project InventoryHub.Api
+```
+
+(Use your own values if your local Postgres credentials differ, or generate your own JWT key — it just needs to be at least 32 characters.)
+
+### 2. Apply database migrations (optional — only if using the database repository)
+
+```bash
+dotnet ef database update --project InventoryHub.Infrastructure --startup-project InventoryHub.Api
+```
+
+### 3. Run
+
 ```bash
 dotnet run --project InventoryHub.Api
 ```
 
+Swagger UI: http://localhost:5184/swagger/index.html
 `.http` request examples: `InventoryHub.Api/InventoryHub.Api.http`
+
+### Switching between in-memory and database
+
+`IProductRepository` can be backed by either an in-memory `List<T>` (seeded with sample data, no setup required) or EF Core + PostgreSQL, controlled by the `Persistence:UseDatabase` setting:
+
+| | `UseDatabase` | Where it's set |
+|---|---|---|
+| In-memory (default outside Development) | `false` | `InventoryHub.Api/appsettings.json` |
+| Database (default for local `dotnet run`) | `true` | `InventoryHub.Api/appsettings.Development.json` |
+
+To override it for a single run without editing any file:
+
+```bash
+Persistence__UseDatabase=false dotnet run --project InventoryHub.Api   # in-memory
+Persistence__UseDatabase=true  dotnet run --project InventoryHub.Api   # database
+```
+
+In Rider/Visual Studio, pick the **`http (In-Memory)`** or **`http (Database)`** launch profile from the run configuration dropdown (defined in `InventoryHub.Api/Properties/launchSettings.json`) instead of using an env var.
+
+The other five repositories (`Supplier`, `Customer`, `Order`, `OrderItem`, `User`) are still in-memory only — this flag currently only applies to `Product`.
