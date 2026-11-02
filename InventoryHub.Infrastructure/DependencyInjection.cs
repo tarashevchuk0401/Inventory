@@ -2,6 +2,7 @@ using InventoryHub.Application.Repositories;
 using InventoryHub.Application.Services.Hasher;
 using InventoryHub.Application.Services.JWT;
 using InventoryHub.Infrastructure.Persistance;
+using InventoryHub.Infrastructure.Repositories.EfCore;
 using InventoryHub.Infrastructure.Repositories.InMemory;
 using InventoryHub.Infrastructure.Services.Hasher;
 using InventoryHub.Infrastructure.Services.JWT;
@@ -18,9 +19,19 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("Default")));
 
+        var useDatabase = configuration.GetValue<bool>("Persistence:UseDatabase");
+
+        if (useDatabase)
+        {
+            services.AddScoped<IProductRepository, ProductEfRepository>();
+        }
+        else
+        {
+            services.AddSingleton<IProductRepository, ProductInMemoryRepository>();
+        }
+
         services.AddSingleton<IUserRepository, UserInMemoryRepository>();
         services.AddSingleton<ISupplierRepository, SupplierInMemoryRepository>();
-        services.AddSingleton<IProductRepository, ProductInMemoryRepository>();
         services.AddSingleton<ICustomerRepository, CustomerInMemoryRepository>();
         services.AddSingleton<IOrderRepository, OrderInMemoryRepository>();
         services.AddSingleton<IOrderItemRepository, OrderItemInMemoryRepository>();
