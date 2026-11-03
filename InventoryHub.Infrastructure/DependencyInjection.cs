@@ -24,13 +24,14 @@ public static class DependencyInjection
         if (useDatabase)
         {
             services.AddScoped<IProductRepository, ProductEfRepository>();
+            services.AddScoped<IUserRepository, UserEfRepository>();
         }
         else
         {
             services.AddSingleton<IProductRepository, ProductInMemoryRepository>();
+            services.AddSingleton<IUserRepository, UserInMemoryRepository>();
         }
 
-        services.AddSingleton<IUserRepository, UserInMemoryRepository>();
         services.AddSingleton<ISupplierRepository, SupplierInMemoryRepository>();
         services.AddSingleton<ICustomerRepository, CustomerInMemoryRepository>();
         services.AddSingleton<IOrderRepository, OrderInMemoryRepository>();

@@ -8,8 +8,8 @@ public class Product
     public string Name { get; set; }
     public decimal Price { get; set; }
     public int StockQuantity { get; set; }
-
     public Guid SupplierId { get; set; }
+
     [ForeignKey(nameof(SupplierId))]
     public Supplier Supplier { get; set; }
 
