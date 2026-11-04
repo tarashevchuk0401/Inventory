@@ -2,15 +2,15 @@ namespace InventoryHub.Domain.Entities;
 
 public class OrderItem
 {
-    public Guid Id { get; set; }
+    public required Guid Id { get; set; }
 
-    public Guid OrderId { get; set; }
+    public required Guid OrderId { get; set; }
 
-    public Guid ProductId { get; set; }
+    public required Guid ProductId { get; set; }
 
-    public int  Quantity { get; set; }
+    public required int Quantity { get; set; }
 
-    public decimal UnitPriceInOrder { get; set; }
+    public required decimal UnitPriceInOrder { get; set; }
 
     public static OrderItem Create(
         Guid orderId,

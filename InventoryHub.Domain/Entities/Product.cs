@@ -4,14 +4,13 @@ namespace InventoryHub.Domain.Entities;
 
 public class Product
 {
-    public Guid Id { get; set; }
-    public string Name { get; set; }
-    public decimal Price { get; set; }
-    public int StockQuantity { get; set; }
-    public Guid SupplierId { get; set; }
+    public required Guid Id { get; set; }
+    public required string Name { get; set; }
+    public required decimal Price { get; set; }
+    public required int StockQuantity { get; set; }
+    public required Guid SupplierId { get; set; }
 
-    [ForeignKey(nameof(SupplierId))]
-    public Supplier Supplier { get; set; }
+    [ForeignKey(nameof(SupplierId))] public Supplier Supplier { get; set; }
 
     public Guid CategoryId { get; set; }
 

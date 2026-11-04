@@ -2,17 +2,17 @@ namespace InventoryHub.Domain.Entities;
 
 public class User
 {
-    public Guid Id { get; set; }
+    public required Guid Id { get; set; }
 
-    public string FirstName { get; set; }
+    public required string FirstName { get; set; }
 
-    public string LastName { get; set; }
+    public required string LastName { get; set; }
 
-    public string Email { get; set; }
+    public required string Email { get; set; }
 
-    public string HashedPassword { get; set; }
+    public required string HashedPassword { get; set; }
 
-    public string Role { get; set; }
+    public required string Role { get; set; }
 
     public static User Create(
         string firstName,

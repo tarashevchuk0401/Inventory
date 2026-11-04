@@ -25,17 +25,21 @@ public static class DependencyInjection
         {
             services.AddScoped<IProductRepository, ProductEfRepository>();
             services.AddScoped<IUserRepository, UserEfRepository>();
+            services.AddScoped<ISupplierRepository, SupplierEfRepository>();
+            services.AddScoped<ICustomerRepository, CustomerEfRepository>();
+            services.AddScoped<IOrderRepository, OrderEfRepository>();
+            services.AddScoped<IOrderItemRepository, OrderItemEfRepository>();
         }
         else
         {
             services.AddSingleton<IProductRepository, ProductInMemoryRepository>();
             services.AddSingleton<IUserRepository, UserInMemoryRepository>();
+            services.AddSingleton<ISupplierRepository, SupplierInMemoryRepository>();
+            services.AddSingleton<ICustomerRepository, CustomerInMemoryRepository>();
+            services.AddSingleton<IOrderRepository, OrderInMemoryRepository>();
+            services.AddSingleton<IOrderItemRepository, OrderItemInMemoryRepository>();
         }
 
-        services.AddSingleton<ISupplierRepository, SupplierInMemoryRepository>();
-        services.AddSingleton<ICustomerRepository, CustomerInMemoryRepository>();
-        services.AddSingleton<IOrderRepository, OrderInMemoryRepository>();
-        services.AddSingleton<IOrderItemRepository, OrderItemInMemoryRepository>();
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddScoped<IPasswordHasher, BCryptPasswordHasher>();
 

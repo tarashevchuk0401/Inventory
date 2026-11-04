@@ -1,7 +1,10 @@
+using FirstApi.Data;
 using InventoryHub.Api.Extensions;
 using InventoryHub.Api.Middleware;
 using InventoryHub.Application;
 using InventoryHub.Infrastructure;
+using InventoryHub.Infrastructure.Persistance;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +22,16 @@ builder.Services.AddInfrastructure(builder.Configuration);
 // builder.Services.AddJwtAuthentication(builder.Configuration);
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    await db.Database.MigrateAsync(); // create/update tables
+
+    if (app.Environment.IsDevelopment())
+        await DbSeeder.SeedAsync(db); // test users only in dev
+}
+
 
 app.UseExceptionHandler();
 

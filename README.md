@@ -49,12 +49,12 @@ InventoryHub.Domain           — plain entities, no dependencies
 - [x] Swagger UI
 - [x] `User` entity + `GET /api/users` — first vertical slice (in-memory repo), to see the full `Controller → Service → IRepository → Repository` flow and where the DI container substitutes the concrete implementation
 - [x] JWT authentication — hashed passwords, login endpoint issuing a JWT, authenticated-by-default fallback policy with `[AllowAnonymous]` on sign-up/sign-in
-- [ ] `Product` / `Supplier` / `Customer` entities fleshed out (currently empty stubs) and their CRUD endpoints
+- [x] `Product` / `Supplier` / `Customer` entities fleshed out (currently empty stubs) and their CRUD endpoints
 - [ ] `Order` / `OrderItem` entities — order placement (decrement stock, compute total), the main feature
-- [ ] Swap in-memory repositories for EF Core + PostgreSQL, first migration
+- [x] Swap in-memory repositories for EF Core + PostgreSQL, first migration
 - [ ] Entity relationships (Orders↔OrderItems↔Products, many-to-many Products↔Suppliers), LINQ-to-Entities reporting queries
 - [ ] xUnit tests (`InventoryHub.Tests`), Repository/Service pattern formalized
-- [ ] Dockerfile + docker-compose with PostgreSQL
+- [x] Dockerfile + docker-compose with PostgreSQL
 - [ ] Angular frontend consuming this API
 - [ ] Full docker-compose (API + PostgreSQL + frontend), polish
 
@@ -78,6 +78,11 @@ dotnet user-secrets set "Jwt:Key" "use-a-long-random-secret-at-least-32-characte
 
 ### 2. Apply database migrations (optional — only if using the database repository)
 
+After updating enity run from root
+````bash
+dotnet ef migrations add AddSupplierAddress --project InventoryHub.Infrastructure --startup-project InventoryHub.Api
+````
+And apply it
 ```bash
 dotnet ef database update --project InventoryHub.Infrastructure --startup-project InventoryHub.Api
 ```
