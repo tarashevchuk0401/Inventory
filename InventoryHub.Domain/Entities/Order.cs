@@ -14,6 +14,8 @@ public class Order
 
     public required List<OrderItem> OrderItems { get; set; } = new();
 
+    public  Customer Customer { get; set; }
+
     public static Order Create(Guid customerId)
     {
         return new Order

@@ -10,7 +10,8 @@ public class Product
     public required int StockQuantity { get; set; }
     public required Guid SupplierId { get; set; }
 
-    [ForeignKey(nameof(SupplierId))] public Supplier Supplier { get; set; }
+    [ForeignKey(nameof(SupplierId))]
+    public Supplier Supplier { get; set; }
 
     public Guid CategoryId { get; set; }
 

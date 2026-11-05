@@ -12,6 +12,10 @@ public class OrderItem
 
     public required decimal UnitPriceInOrder { get; set; }
 
+    public Product Product { get; set; }
+
+    public Order Order { get; set; }
+
     public static OrderItem Create(
         Guid orderId,
         Guid productId,

@@ -11,6 +11,7 @@ public static class DbSeeder
     {
         await DbSeeder.SeedUsers(db);
         await DbSeeder.SeedSuppliers(db);
+        await DbSeeder.SeedCustomers(db);
         await DbSeeder.SeedProducts(db);
         await DbSeeder.SeedOrder(db);
         await DbSeeder.SeedOrderItems(db);
