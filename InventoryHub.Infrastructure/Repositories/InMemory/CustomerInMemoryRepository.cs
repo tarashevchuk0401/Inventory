@@ -26,4 +26,9 @@ public class CustomerInMemoryRepository : ICustomerRepository
         _customers.Add(customer);
         return Task.CompletedTask;
     }
+
+    public Task<bool> IsExistAsync(Guid id)
+    {
+        return Task.FromResult(_customers.Any(c => c.Id == id));
+    }
 }

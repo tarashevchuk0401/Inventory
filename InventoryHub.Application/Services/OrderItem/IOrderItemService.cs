@@ -7,5 +7,5 @@ public interface IOrderItemService
     Task<List<OrderItemDto>> GetAllAsync();
     Task<OrderItemDto> GetById(Guid id);
 
-    Task<OrderItemDto> AddAsync(Guid orderId,  CreateOrderItemDto dto);
+    Task<OrderItemDto> AddAsync(Guid orderId,  CreateOrderItemDto dto, int unitPriceInOrder);
 }

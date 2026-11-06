@@ -29,4 +29,9 @@ public class ProductEfRepository(ApplicationDbContext context) : IProductReposit
             .OrderBy(p => p.StockQuantity)
             .ToListAsync();
     }
+
+    public async Task<bool> IsExistAsync(Guid id)
+    {
+        return await context.Customers.AnyAsync(c => c.Id == id);
+    }
 }

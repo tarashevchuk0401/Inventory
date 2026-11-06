@@ -17,9 +17,9 @@ public class OrderItemController(IOrderItemService orderItemService) : Controlle
         return orderItemService.GetById(id);
     }
 
-    [HttpPost("create")]
-    public Task<OrderItemDto> AddOrderItem(Guid orderId, CreateOrderItemDto dto)
-    {
-        return orderItemService.AddAsync(orderId, dto);
-    }
+    // [HttpPost("create")]
+    // public Task<OrderItemDto> AddOrderItem(Guid orderId, CreateOrderItemDto dto)
+    // {
+    //     return orderItemService.AddAsync(orderId, dto);
+    // }
 }

@@ -8,4 +8,7 @@ public interface IProductRepository
     Task<Product?> GetByIdAsync(Guid id);
     Task AddAsync(Product product);
     Task<List<Product>> GetLowStockAsync();
+
+    Task<bool> IsExistAsync(Guid id);
+
 }

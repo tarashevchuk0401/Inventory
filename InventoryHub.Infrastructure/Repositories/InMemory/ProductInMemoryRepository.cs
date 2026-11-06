@@ -31,4 +31,9 @@ public class ProductInMemoryRepository : IProductRepository
     {
         return Task.FromResult(_products.OrderBy(p => p.StockQuantity).ToList());
     }
+
+    public Task<bool> IsExistAsync(Guid id)
+    {
+        return Task.FromResult(_products.Any(p => p.Id == id));
+    }
 }

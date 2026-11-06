@@ -21,4 +21,9 @@ class CustomerEfRepository(ApplicationDbContext context) : ICustomerRepository
         context.Customers.Add(customer);
         await context.SaveChangesAsync();
     }
+
+    public async Task<bool> IsExistAsync(Guid id)
+    {
+        return await context.Customers.AnyAsync(c => c.Id == id);
+    }
 }

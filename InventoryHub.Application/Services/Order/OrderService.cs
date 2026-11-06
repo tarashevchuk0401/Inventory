@@ -5,7 +5,11 @@ using InventoryHub.Domain.Entities;
 
 namespace InventoryHub.Application.Services;
 
-public class OrderService(IOrderRepository orderRepository, IOrderItemRepository orderItemRepository) : IOrderService
+public class OrderService(
+    IOrderRepository orderRepository,
+    ICustomerRepository customerRepository,
+    IOrderItemRepository orderItemRepository,
+    IProductRepository productRepository) : IOrderService
 {
     public async Task<List<OrderDto>> GetAllAsync()
     {
@@ -41,13 +45,25 @@ public class OrderService(IOrderRepository orderRepository, IOrderItemRepository
 
     public async Task<OrderDto> AddAsync(CreateOrderDto dto)
     {
+        var isCustomerExist = await customerRepository.IsExistAsync(dto.CustomerId);
+        if (!isCustomerExist)
+        {
+            throw new NotFoundException($"There are no customer with id {dto.CustomerId}");
+        }
+
         var newOrder = Order.Create(dto.CustomerId);
         await orderRepository.AddAsync(newOrder);
 
         var orderItems = dto.OrderItems;
         foreach (var item in orderItems)
         {
-            var newItem = OrderItem.Create(newOrder.Id, item.ProductId, item.Quantity, item.UnitPriceInOrder);
+            var product = await productRepository.GetByIdAsync(item.ProductId);
+            if (product == null)
+            {
+                throw new NotFoundException($"There are no product with id {item.ProductId}");
+            }
+
+            var newItem = OrderItem.Create(newOrder.Id, item.ProductId, item.Quantity, product.Price);
             await orderItemRepository.AddAsync(newItem);
         }
 
