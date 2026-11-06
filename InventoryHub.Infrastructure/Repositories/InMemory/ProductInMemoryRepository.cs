@@ -26,4 +26,9 @@ public class ProductInMemoryRepository : IProductRepository
         _products.Add(product);
         return Task.CompletedTask;
     }
+
+    public Task<List<Product>> GetLowStockAsync()
+    {
+        return Task.FromResult(_products.OrderBy(p => p.StockQuantity).ToList());
+    }
 }

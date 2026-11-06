@@ -58,4 +58,21 @@ public class ProductService(IProductRepository productRepository) : IProductServ
             CategoryId = newProduct.CategoryId
         };
     }
+
+    public async Task<List<ProductDto>> GetLowStocks()
+    {
+        var lowStock = await productRepository.GetLowStockAsync();
+
+        return lowStock
+            .Select(p => new ProductDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price,
+                StockQuantity = p.StockQuantity,
+                SupplierId = p.SupplierId,
+                CategoryId = p.CategoryId
+            })
+            .ToList();
+    }
 }

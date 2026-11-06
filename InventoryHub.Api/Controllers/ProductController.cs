@@ -22,4 +22,10 @@ public class ProductController(IProductService productService) : ControllerBase
     {
         return productService.AddAsync(dto);
     }
+
+    [HttpGet("getLowStock")]
+    public Task<List<ProductDto>> GetLowStocks()
+    {
+        return productService.GetLowStocks();
+    }
 }

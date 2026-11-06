@@ -8,4 +8,6 @@ public interface IProductService
     Task<ProductDto> GetById(Guid id);
 
     Task<ProductDto> AddAsync(CreateProductDto dto);
+
+    Task<List<ProductDto>> GetLowStocks();
 }

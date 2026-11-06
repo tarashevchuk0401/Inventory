@@ -22,4 +22,11 @@ public class ProductEfRepository(ApplicationDbContext context) : IProductReposit
         context.Products.Add(product);
         await context.SaveChangesAsync();
     }
+
+    public async Task<List<Product>> GetLowStockAsync()
+    {
+        return await context.Products
+            .OrderBy(p => p.StockQuantity)
+            .ToListAsync();
+    }
 }
