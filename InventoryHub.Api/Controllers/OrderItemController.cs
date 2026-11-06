@@ -18,8 +18,8 @@ public class OrderItemController(IOrderItemService orderItemService) : Controlle
     }
 
     [HttpPost("create")]
-    public Task<OrderItemDto> AddOrderItem(CreateOrderItemDto dto)
+    public Task<OrderItemDto> AddOrderItem(Guid orderId, CreateOrderItemDto dto)
     {
-        return orderItemService.AddAsync(dto);
+        return orderItemService.AddAsync(orderId, dto);
     }
 }

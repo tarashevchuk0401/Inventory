@@ -41,9 +41,9 @@ public class OrderItemService(IOrderItemRepository orderItemRepository) : IOrder
         };
     }
 
-    public async Task<OrderItemDto> AddAsync(CreateOrderItemDto dto)
+    public async Task<OrderItemDto> AddAsync(Guid orderId, CreateOrderItemDto dto)
     {
-        var newOrderItem = OrderItem.Create(dto.OrderId, dto.ProductId, dto.Quantity, dto.UnitPriceInOrder);
+        var newOrderItem = OrderItem.Create(orderId, dto.ProductId, dto.Quantity, dto.UnitPriceInOrder);
         await orderItemRepository.AddAsync(newOrderItem);
 
         return new OrderItemDto

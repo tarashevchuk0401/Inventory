@@ -63,6 +63,8 @@ public class ProductService(IProductRepository productRepository) : IProductServ
     {
         var lowStock = await productRepository.GetLowStockAsync();
 
+        if (lowStock.Count == 0) throw new NotFoundException("There are no products at all!");
+
         return lowStock
             .Select(p => new ProductDto
             {
