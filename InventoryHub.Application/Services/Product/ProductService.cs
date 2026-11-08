@@ -7,23 +7,6 @@ namespace InventoryHub.Application.Services;
 
 public class ProductService(IProductRepository productRepository) : IProductService
 {
-    public async Task<List<ProductDto>> GetAllAsync()
-    {
-        var all = await productRepository.GetAllAsync();
-
-        return all
-            .Select(p => new ProductDto
-            {
-                Id = p.Id,
-                Name = p.Name,
-                Price = p.Price,
-                StockQuantity = p.StockQuantity,
-                SupplierId = p.SupplierId,
-                CategoryId = p.CategoryId
-            })
-            .ToList();
-    }
-
     public async Task<ProductDto> GetById(Guid id)
     {
         var product = await productRepository.GetByIdAsync(id);
@@ -66,6 +49,23 @@ public class ProductService(IProductRepository productRepository) : IProductServ
         if (lowStock.Count == 0) throw new NotFoundException("There are no products at all!");
 
         return lowStock
+            .Select(p => new ProductDto
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Price = p.Price,
+                StockQuantity = p.StockQuantity,
+                SupplierId = p.SupplierId,
+                CategoryId = p.CategoryId
+            })
+            .ToList();
+    }
+
+    public async Task<List<ProductDto>> GetAllAsync()
+    {
+        var all = await productRepository.GetAllAsync();
+
+        return all
             .Select(p => new ProductDto
             {
                 Id = p.Id,

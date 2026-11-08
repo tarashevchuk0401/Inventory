@@ -17,6 +17,15 @@ public class ProductEfRepository(ApplicationDbContext context) : IProductReposit
         return await context.Products.FirstOrDefaultAsync(p => p.Id == id);
     }
 
+    public async Task<Product?> DecrementStocks(Guid id, int quantity = 1)
+    {
+        var product = await context.Products.FirstOrDefaultAsync(p => p.Id == id && p.StockQuantity >= quantity);
+        if (product == null) return null;
+        product.StockQuantity -= quantity;
+        return product;
+    }
+
+
     public async Task AddAsync(Product product)
     {
         context.Products.Add(product);

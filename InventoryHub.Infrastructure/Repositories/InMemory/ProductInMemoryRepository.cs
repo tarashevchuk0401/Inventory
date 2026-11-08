@@ -21,6 +21,14 @@ public class ProductInMemoryRepository : IProductRepository
         return Task.FromResult(_products.FirstOrDefault(p => p.Id == id));
     }
 
+    public async Task<Product?> DecrementStocks(Guid id, int quantity = 1)
+    {
+        var product = await Task.FromResult(_products.FirstOrDefault(p => p.Id == id && p.StockQuantity >= quantity));
+        if (product == null) return null;
+        product.StockQuantity -= quantity;
+        return product;
+    }
+
     public Task AddAsync(Product product)
     {
         _products.Add(product);

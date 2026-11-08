@@ -58,10 +58,10 @@ public class OrderService(
         var orderItems = dto.OrderItems;
         foreach (var item in orderItems)
         {
-            var product = await productRepository.GetByIdAsync(item.ProductId);
+            var product = await productRepository.DecrementStocks(item.ProductId, item.Quantity);
             if (product == null)
             {
-                throw new NotFoundException($"There are no product with id {item.ProductId}");
+                throw new NotFoundException($"There are no product with id {item.ProductId}. Check existing and availability");
             }
 
             var newItem = OrderItem.Create(newOrder.Id, item.ProductId, item.Quantity, product.Price);
