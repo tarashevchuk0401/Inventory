@@ -9,7 +9,8 @@ public class OrderService(
     IOrderRepository orderRepository,
     ICustomerRepository customerRepository,
     IOrderItemRepository orderItemRepository,
-    IProductRepository productRepository) : IOrderService
+    IProductRepository productRepository,
+    IUnitOfWork unitOfWork) : IOrderService
 {
     public async Task<List<OrderDto>> GetAllAsync()
     {
@@ -66,6 +67,8 @@ public class OrderService(
             var newItem = OrderItem.Create(newOrder.Id, item.ProductId, item.Quantity, product.Price);
             await orderItemRepository.AddAsync(newItem);
         }
+
+        await unitOfWork.SaveChangesAsync();
 
         return new OrderDto
         {

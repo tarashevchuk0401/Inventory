@@ -5,7 +5,7 @@ using InventoryHub.Domain.Entities;
 
 namespace InventoryHub.Application.Services;
 
-public class OrderItemService(IOrderItemRepository orderItemRepository) : IOrderItemService
+public class OrderItemService(IOrderItemRepository orderItemRepository, IUnitOfWork unitOfWork) : IOrderItemService
 {
     public async Task<List<OrderItemDto>> GetAllAsync()
     {
@@ -45,6 +45,7 @@ public class OrderItemService(IOrderItemRepository orderItemRepository) : IOrder
     {
         var newOrderItem = OrderItem.Create(orderId, dto.ProductId, dto.Quantity, unitPriceInOrder);
         await orderItemRepository.AddAsync(newOrderItem);
+        await unitOfWork.SaveChangesAsync();
 
         return new OrderItemDto
         {

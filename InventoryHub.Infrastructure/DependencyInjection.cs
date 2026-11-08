@@ -29,6 +29,7 @@ public static class DependencyInjection
             services.AddScoped<ICustomerRepository, CustomerEfRepository>();
             services.AddScoped<IOrderRepository, OrderEfRepository>();
             services.AddScoped<IOrderItemRepository, OrderItemEfRepository>();
+            services.AddScoped<IUnitOfWork, EfUnitOfWork>();
         }
         else
         {
@@ -38,6 +39,7 @@ public static class DependencyInjection
             services.AddSingleton<ICustomerRepository, CustomerInMemoryRepository>();
             services.AddSingleton<IOrderRepository, OrderInMemoryRepository>();
             services.AddSingleton<IOrderItemRepository, OrderItemInMemoryRepository>();
+            services.AddSingleton<IUnitOfWork, InMemoryUnitOfWork>();
         }
 
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();

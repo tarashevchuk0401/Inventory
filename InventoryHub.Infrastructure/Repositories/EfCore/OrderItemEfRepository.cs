@@ -16,9 +16,10 @@ class OrderItemEfRepository(ApplicationDbContext context) : IOrderItemRepository
         return await context.OrderItems.FirstOrDefaultAsync(u => u.Id == id);
     }
 
-    public async Task AddAsync(OrderItem orderItem)
+    // Tracks the order item only — caller must call IUnitOfWork.SaveChangesAsync() to persist.
+    public Task AddAsync(OrderItem orderItem)
     {
         context.OrderItems.Add(orderItem);
-        await context.SaveChangesAsync();
+        return Task.CompletedTask;
     }
 }
