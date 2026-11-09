@@ -12,10 +12,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<OrderItem> OrderItems => Set<OrderItem>();
     public DbSet<User> Users => Set<User>();
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
-        modelBuilder.Entity<Product>()
-            .Property(p => p.Category)
-            .HasConversion<string>();
+        configurationBuilder.Properties<Enum>().HaveConversion<string>();
     }
 }
