@@ -16,8 +16,6 @@ public class Product
     [ForeignKey(nameof(SupplierId))]
     public Supplier Supplier { get; set; }
 
-    // public Guid CategoryId { get; set; }
-
     public static Product Create(
         string name,
         decimal price,

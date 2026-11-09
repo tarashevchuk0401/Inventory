@@ -58,10 +58,17 @@ public class OrderService(
         var orderItems = dto.OrderItems;
         foreach (var item in orderItems)
         {
+            var existingProduct = await productRepository.GetByIdAsync(item.ProductId);
+            if (existingProduct == null)
+            {
+                throw new NotFoundException($"There are no product with id {item.ProductId}");
+            }
+
             var product = await productRepository.DecrementStocks(item.ProductId, item.Quantity);
             if (product == null)
             {
-                throw new NotFoundException($"There are no product with id {item.ProductId}. Check existing and availability");
+                throw new ConflictException(
+                    $"Not enough stock for product {existingProduct.Name}: requested {item.Quantity}, available {existingProduct.StockQuantity}.");
             }
 
             var newItem = OrderItem.Create(newOrder.Id, item.ProductId, item.Quantity, product.Price);

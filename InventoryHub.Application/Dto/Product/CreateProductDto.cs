@@ -11,7 +11,7 @@ public class CreateProductDto
 
     [Range(0, int.MaxValue)] public int StockQuantity { get; set; }
 
-    [Required] public Guid SupplierId { get; set; }
+    [Required] public Guid? SupplierId { get; set; }
 
-    [Required] public ProductCategories Category { get; set; }
+    [Required] public ProductCategories? Category { get; set; }
 }

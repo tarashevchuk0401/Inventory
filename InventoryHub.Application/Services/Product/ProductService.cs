@@ -28,7 +28,7 @@ public class ProductService(IProductRepository productRepository) : IProductServ
 
     public async Task<ProductDto> AddAsync(CreateProductDto dto)
     {
-        var newProduct = Product.Create(dto.Name, dto.Price, dto.StockQuantity, dto.SupplierId, dto.Category);
+        var newProduct = Product.Create(dto.Name, dto.Price, dto.StockQuantity, dto.SupplierId!.Value, dto.Category!.Value);
         await productRepository.AddAsync(newProduct);
 
         return new ProductDto
