@@ -1,3 +1,5 @@
+using InventoryHub.Domain.Enums;
+
 namespace InventoryHub.Application.Dto.Product;
 
 public class ProductDto
@@ -7,5 +9,5 @@ public class ProductDto
     public decimal Price { get; set; }
     public int StockQuantity { get; set; }
     public Guid SupplierId { get; set; }
-    public Guid CategoryId { get; set; }
+    public ProductCategories Category { get; set; }
 }

@@ -1,5 +1,6 @@
 using InventoryHub.Application.Repositories;
 using InventoryHub.Domain.Entities;
+using InventoryHub.Domain.Enums;
 
 namespace InventoryHub.Infrastructure.Repositories.InMemory;
 
@@ -7,8 +8,8 @@ public class ProductInMemoryRepository : IProductRepository
 {
     private readonly List<Product> _products = new()
     {
-        Product.Create("Widget", 9.99m, 100, Guid.NewGuid(), Guid.NewGuid()),
-        Product.Create("Gadget", 19.99m, 50, Guid.NewGuid(), Guid.NewGuid())
+        Product.Create("Widget", 9.99m, 100, Guid.NewGuid(), ProductCategories.Console),
+        Product.Create("Gadget", 19.99m, 50, Guid.NewGuid(), ProductCategories.Other)
     };
 
     public Task<List<Product>> GetAllAsync()

@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using FirstApi.Data;
 using InventoryHub.Api.Extensions;
 using InventoryHub.Api.Middleware;
@@ -10,7 +11,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
+
 builder.Services.AddSwaggerWithJwtAuth();
 
 builder.Services.AddExceptionHandler<AppExceptionHandler>();

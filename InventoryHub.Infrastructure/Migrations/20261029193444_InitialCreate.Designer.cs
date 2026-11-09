@@ -100,7 +100,8 @@ namespace InventoryHub.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<Guid>("CategoryId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasConversion<string>();
 
                     b.Property<string>("Name")
                         .IsRequired()

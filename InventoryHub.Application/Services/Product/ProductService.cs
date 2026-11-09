@@ -22,13 +22,13 @@ public class ProductService(IProductRepository productRepository) : IProductServ
             Price = product.Price,
             StockQuantity = product.StockQuantity,
             SupplierId = product.SupplierId,
-            CategoryId = product.CategoryId
+            Category = product.Category
         };
     }
 
     public async Task<ProductDto> AddAsync(CreateProductDto dto)
     {
-        var newProduct = Product.Create(dto.Name, dto.Price, dto.StockQuantity, dto.SupplierId, dto.CategoryId);
+        var newProduct = Product.Create(dto.Name, dto.Price, dto.StockQuantity, dto.SupplierId, dto.Category);
         await productRepository.AddAsync(newProduct);
 
         return new ProductDto
@@ -38,7 +38,7 @@ public class ProductService(IProductRepository productRepository) : IProductServ
             Price = newProduct.Price,
             StockQuantity = newProduct.StockQuantity,
             SupplierId = newProduct.SupplierId,
-            CategoryId = newProduct.CategoryId
+            Category = newProduct.Category
         };
     }
 
@@ -56,7 +56,7 @@ public class ProductService(IProductRepository productRepository) : IProductServ
                 Price = p.Price,
                 StockQuantity = p.StockQuantity,
                 SupplierId = p.SupplierId,
-                CategoryId = p.CategoryId
+                Category = p.Category
             })
             .ToList();
     }
@@ -73,7 +73,7 @@ public class ProductService(IProductRepository productRepository) : IProductServ
                 Price = p.Price,
                 StockQuantity = p.StockQuantity,
                 SupplierId = p.SupplierId,
-                CategoryId = p.CategoryId
+                Category = p.Category
             })
             .ToList();
     }

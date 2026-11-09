@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using InventoryHub.Domain.Enums;
 
 namespace InventoryHub.Application.Dto.Product;
 
@@ -12,5 +13,5 @@ public class CreateProductDto
 
     [Required] public Guid SupplierId { get; set; }
 
-    [Required] public Guid CategoryId { get; set; }
+    [Required] public ProductCategories Category { get; set; }
 }

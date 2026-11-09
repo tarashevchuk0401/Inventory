@@ -72,52 +72,53 @@ public static class DbSeeder
             new Product
             {
                 Id = new Guid("22222222-2222-2222-2222-222222222221"), Name = "Iphone 18",
-                Price = 750, StockQuantity = 100, SupplierId = appleId,
+                Price = 750, StockQuantity = 100, SupplierId = appleId, Category = ProductCategories.Phone
             },
             new Product
             {
                 Id = new Guid("22222222-2222-2222-2222-222222222222"), Name = "Iphone 18 Pro",
-                Price = 999, StockQuantity = 80, SupplierId = appleId,
+                Price = 999, StockQuantity = 80, SupplierId = appleId,Category = ProductCategories.Phone
+
             },
             new Product
             {
                 Id = new Guid("22222222-2222-2222-2222-222222222223"), Name = "MacBook Air",
-                Price = 1199, StockQuantity = 40, SupplierId = appleId,
+                Price = 1199, StockQuantity = 40, SupplierId = appleId, Category = ProductCategories.Laptop
             },
             new Product
             {
                 Id = new Guid("22222222-2222-2222-2222-222222222224"), Name = "AirPods Pro",
-                Price = 249, StockQuantity = 150, SupplierId = appleId,
+                Price = 249, StockQuantity = 150, SupplierId = appleId,Category = ProductCategories.Headphones
             },
             new Product
             {
                 Id = new Guid("22222222-2222-2222-2222-222222222225"), Name = "Galaxy S25",
-                Price = 820, StockQuantity = 90, SupplierId = samsungId,
+                Price = 820, StockQuantity = 90, SupplierId = samsungId, Category = ProductCategories.Phone
             },
             new Product
             {
                 Id = new Guid("22222222-2222-2222-2222-222222222226"), Name = "Galaxy Z Fold 6",
-                Price = 1599, StockQuantity = 30, SupplierId = samsungId,
+                Price = 1599, StockQuantity = 30, SupplierId = samsungId, Category = ProductCategories.Phone
             },
             new Product
             {
                 Id = new Guid("22222222-2222-2222-2222-222222222227"), Name = "Galaxy Tab S10",
-                Price = 650, StockQuantity = 60, SupplierId = samsungId,
+                Price = 650, StockQuantity = 60, SupplierId = samsungId, Category = ProductCategories.Phone
             },
             new Product
             {
                 Id = new Guid("22222222-2222-2222-2222-222222222228"), Name = "Galaxy Buds Pro",
-                Price = 179, StockQuantity = 120, SupplierId = samsungId,
+                Price = 179, StockQuantity = 120, SupplierId = samsungId, Category = ProductCategories.Phone
             },
             new Product
             {
                 Id = new Guid("22222222-2222-2222-2222-222222222229"), Name = "PlayStation 5",
-                Price = 499, StockQuantity = 70, SupplierId = sonyId,
+                Price = 499, StockQuantity = 70, SupplierId = sonyId, Category = ProductCategories.Console
             },
             new Product
             {
                 Id = new Guid("22222222-2222-2222-2222-22222222222a"), Name = "Sony WH-1000XM6",
-                Price = 349, StockQuantity = 110, SupplierId = sonyId,
+                Price = 349, StockQuantity = 110, SupplierId = sonyId, Category = ProductCategories.Headphones
             }
         );
 
