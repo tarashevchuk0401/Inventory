@@ -1,4 +1,5 @@
 using InventoryHub.Application.Dto.Order;
+using InventoryHub.Application.Dto.OrderItem;
 using InventoryHub.Application.Exceptions;
 using InventoryHub.Application.Repositories;
 using InventoryHub.Domain.Entities;
@@ -83,6 +84,35 @@ public class OrderService(
             CustomerId = newOrder.CustomerId,
             OrderDate = newOrder.OrderDate,
             Status = newOrder.Status
+        };
+    }
+
+    public async Task<OrderSummaryDto> GetOrderSummary(Guid id)
+    {
+        var order = await orderRepository.GetByIdAsync(id);
+        if (order == null) throw new NotFoundException("There are no order");
+        var orderItems = order.OrderItems;
+        var sum = orderItems.Sum(i => i.UnitPriceInOrder * i.Quantity);
+
+        var orderItemsDto = orderItems.Select(item => new OrderItemDto
+        {
+            Id = item.Id,
+            OrderId = order.Id,
+            ProductId = item.ProductId,
+            Quantity = item.Quantity,
+            UnitPriceInOrder = item.UnitPriceInOrder
+        }).ToList();
+
+
+        return new OrderSummaryDto
+        {
+            Id = order.Id,
+            CustomerId = order.CustomerId,
+            OrderDate = order.OrderDate,
+            Status = order.Status,
+            OrderItems = orderItemsDto,
+            TotalSum = sum,
+            ItemsCount = orderItems.Count()
         };
     }
 }

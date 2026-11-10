@@ -8,4 +8,6 @@ public interface IOrderService
     Task<OrderDto> GetById(Guid id);
 
     Task<OrderDto> AddAsync(CreateOrderDto dto);
+
+    Task<OrderSummaryDto> GetOrderSummary(Guid id);
 }

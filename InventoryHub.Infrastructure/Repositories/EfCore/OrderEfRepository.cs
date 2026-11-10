@@ -13,7 +13,9 @@ class OrderEfRepository(ApplicationDbContext context) : IOrderRepository
 
     public async Task<Order?> GetByIdAsync(Guid id)
     {
-        return await context.Orders.FirstOrDefaultAsync(u => u.Id == id);
+        return await context.Orders
+            .Include(o => o.OrderItems)
+            .FirstOrDefaultAsync(u => u.Id == id);
     }
 
     // Tracks the order only — caller must call IUnitOfWork.SaveChangesAsync() to persist.

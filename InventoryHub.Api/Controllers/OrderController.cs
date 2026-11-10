@@ -22,4 +22,11 @@ public class OrderController(IOrderService orderService) : ControllerBase
     {
         return orderService.AddAsync(dto);
     }
+
+    [HttpGet("getSummary/{id}")]
+    public Task<OrderSummaryDto> GetOrderSummary(Guid id)
+    {
+        return orderService.GetOrderSummary(id);
+    }
+
 }
