@@ -12,9 +12,9 @@ public class Product
 
     public required ProductCategories Category { get; set; }
     public required Guid SupplierId { get; set; }
+    public List<OrderItem> OrderItems { get; set; } = new();
 
-    [ForeignKey(nameof(SupplierId))]
-    public Supplier Supplier { get; set; }
+    [ForeignKey(nameof(SupplierId))] public Supplier Supplier { get; set; }
 
     public static Product Create(
         string name,
@@ -31,7 +31,7 @@ public class Product
             Price = price,
             StockQuantity = stockQuantity,
             SupplierId = supplierId,
-            Category = category
+            Category = category,
         };
     }
 }

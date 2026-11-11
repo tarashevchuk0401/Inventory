@@ -28,4 +28,10 @@ public class ProductController(IProductService productService) : ControllerBase
     {
         return productService.GetLowStocks();
     }
+
+    [HttpGet("neverOrdered")]
+    public async Task<List<ProductDto>>  GetNeverOrdered()
+    {
+       return await productService.GetNeverOrdered();
+    }
 }

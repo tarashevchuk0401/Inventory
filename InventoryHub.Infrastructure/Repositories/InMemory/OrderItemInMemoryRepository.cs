@@ -26,4 +26,9 @@ public class OrderItemInMemoryRepository : IOrderItemRepository
         _orderItems.Add(orderItem);
         return Task.CompletedTask;
     }
+
+    public Task<Product> GetNeverOrdered()
+    {
+        throw new NotImplementedException();
+    }
 }

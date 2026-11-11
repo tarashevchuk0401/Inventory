@@ -5,7 +5,9 @@ using InventoryHub.Domain.Entities;
 
 namespace InventoryHub.Application.Services;
 
-public class ProductService(IProductRepository productRepository) : IProductService
+public class ProductService(
+    IProductRepository productRepository
+) : IProductService
 {
     public async Task<ProductDto> GetById(Guid id)
     {
@@ -28,7 +30,8 @@ public class ProductService(IProductRepository productRepository) : IProductServ
 
     public async Task<ProductDto> AddAsync(CreateProductDto dto)
     {
-        var newProduct = Product.Create(dto.Name, dto.Price, dto.StockQuantity, dto.SupplierId!.Value, dto.Category!.Value);
+        var newProduct = Product.Create(dto.Name, dto.Price, dto.StockQuantity, dto.SupplierId!.Value,
+            dto.Category!.Value);
         await productRepository.AddAsync(newProduct);
 
         return new ProductDto
@@ -76,5 +79,19 @@ public class ProductService(IProductRepository productRepository) : IProductServ
                 Category = p.Category
             })
             .ToList();
+    }
+
+    public async Task<List<ProductDto>> GetNeverOrdered()
+    {
+        var products = await productRepository.GetNeverOrdered();
+
+        return products.Select(p => new ProductDto
+        {
+            Id = p.Id,
+            Category = p.Category,
+            Name = p.Name,
+            StockQuantity = p.StockQuantity,
+            SupplierId = p.SupplierId
+        }).ToList();
     }
 }

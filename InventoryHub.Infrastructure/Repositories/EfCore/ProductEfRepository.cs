@@ -43,4 +43,11 @@ public class ProductEfRepository(ApplicationDbContext context) : IProductReposit
     {
         return await context.Customers.AnyAsync(c => c.Id == id);
     }
+
+    public async Task<List<Product>> GetNeverOrdered()
+    {
+        return await context.Products
+            .Where(p => p.OrderItems.Count() == 0)
+            .ToListAsync();
+    }
 }

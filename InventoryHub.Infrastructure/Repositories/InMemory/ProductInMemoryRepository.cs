@@ -45,4 +45,9 @@ public class ProductInMemoryRepository : IProductRepository
     {
         return Task.FromResult(_products.Any(p => p.Id == id));
     }
+
+    public Task<List<Product>>  GetNeverOrdered()
+    {
+        throw new NotImplementedException();
+    }
 }

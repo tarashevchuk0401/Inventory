@@ -1,3 +1,4 @@
+using InventoryHub.Application.Dto.Product;
 using InventoryHub.Application.Repositories;
 using InventoryHub.Domain.Entities;
 using InventoryHub.Infrastructure.Persistance;
