@@ -27,11 +27,6 @@ public class OrderItemInMemoryRepository : IOrderItemRepository
         return Task.CompletedTask;
     }
 
-    public Task<Product> GetNeverOrdered()
-    {
-        throw new NotImplementedException();
-    }
-
     public Task<List<OrderItem>> GetAllWithProductsAsync()
     {
         throw new NotImplementedException();
