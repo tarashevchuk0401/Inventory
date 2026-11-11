@@ -34,4 +34,10 @@ public class ProductController(IProductService productService) : ControllerBase
     {
        return await productService.GetNeverOrdered();
     }
+
+    [HttpGet("topSelling")]
+    public async Task<List<TopSellingDto>> GetTopSelling()
+    {
+         return await productService.GetTopSelling();
+    }
 }

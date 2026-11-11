@@ -6,7 +6,8 @@ using InventoryHub.Domain.Entities;
 namespace InventoryHub.Application.Services;
 
 public class ProductService(
-    IProductRepository productRepository
+    IProductRepository productRepository,
+    IOrderItemRepository orderItemRepository
 ) : IProductService
 {
     public async Task<ProductDto> GetById(Guid id)
@@ -93,5 +94,33 @@ public class ProductService(
             StockQuantity = p.StockQuantity,
             SupplierId = p.SupplierId
         }).ToList();
+    }
+
+    public async Task<List<TopSellingDto>> GetTopSelling()
+    {
+        var orderItems = await orderItemRepository.GetAllAsync();
+        var groupedOrderItems = orderItems.ToList().GroupBy(i => i.Product);
+
+        List<TopSellingDto> list = new List<TopSellingDto>();
+
+        foreach (var item in groupedOrderItems)
+        {
+            var sum = item.Key.OrderItems.Sum(oi => oi.Quantity);
+            list.Add(new TopSellingDto
+            {
+                QuantityOfSoldItems = sum,
+                Product = new ProductDto
+                {
+                    Id = item.Key.Id,
+                    StockQuantity = item.Key.StockQuantity,
+                    Price = item.Key.Price,
+                    Name = item.Key.Name,
+                    SupplierId = item.Key.SupplierId,
+                    Category = item.Key.Category
+                }
+            });
+        }
+
+        return list;
     }
 }

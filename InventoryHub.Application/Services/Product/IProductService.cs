@@ -13,4 +13,5 @@ public interface IProductService
     Task<List<ProductDto>> GetLowStocks();
     // Task<List<ProductDto>> GetNeverOrdered();
     Task<List<ProductDto>>  GetNeverOrdered();
+    Task<List<TopSellingDto>>  GetTopSelling();
 }
