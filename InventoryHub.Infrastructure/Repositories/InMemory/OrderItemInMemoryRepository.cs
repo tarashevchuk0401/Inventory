@@ -31,4 +31,9 @@ public class OrderItemInMemoryRepository : IOrderItemRepository
     {
         throw new NotImplementedException();
     }
+
+    public Task<List<OrderItem>> GetAllWithProductsAsync()
+    {
+        throw new NotImplementedException();
+    }
 }

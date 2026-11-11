@@ -12,6 +12,11 @@ class OrderItemEfRepository(ApplicationDbContext context) : IOrderItemRepository
         return await context.OrderItems.ToListAsync();
     }
 
+    public async Task<List<OrderItem>> GetAllWithProductsAsync()
+    {
+        return await context.OrderItems.Include(p => p.Product).ToListAsync();
+    }
+
     public async Task<OrderItem?> GetByIdAsync(Guid id)
     {
         return await context.OrderItems.FirstOrDefaultAsync(u => u.Id == id);

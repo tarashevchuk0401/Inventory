@@ -98,29 +98,21 @@ public class ProductService(
 
     public async Task<List<TopSellingDto>> GetTopSelling()
     {
-        var orderItems = await orderItemRepository.GetAllAsync();
+        var orderItems = await orderItemRepository.GetAllWithProductsAsync();
         var groupedOrderItems = orderItems.ToList().GroupBy(i => i.Product);
 
-        List<TopSellingDto> list = new List<TopSellingDto>();
-
-        foreach (var item in groupedOrderItems)
+        return groupedOrderItems.Select(groupItem => new TopSellingDto
         {
-            var sum = item.Key.OrderItems.Sum(oi => oi.Quantity);
-            list.Add(new TopSellingDto
+            QuantityOfSoldItems = groupItem.Sum(orderItem => orderItem.Quantity),
+            Product = new ProductDto
             {
-                QuantityOfSoldItems = sum,
-                Product = new ProductDto
-                {
-                    Id = item.Key.Id,
-                    StockQuantity = item.Key.StockQuantity,
-                    Price = item.Key.Price,
-                    Name = item.Key.Name,
-                    SupplierId = item.Key.SupplierId,
-                    Category = item.Key.Category
-                }
-            });
-        }
-
-        return list;
+                Id = groupItem.Key.Id,
+                StockQuantity = groupItem.Key.StockQuantity,
+                Price = groupItem.Key.Price,
+                Name = groupItem.Key.Name,
+                SupplierId = groupItem.Key.SupplierId,
+                Category = groupItem.Key.Category
+            }
+        }).ToList();
     }
 }
