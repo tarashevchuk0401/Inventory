@@ -3,7 +3,7 @@ using InventoryHub.Domain.Entities;
 using InventoryHub.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 
-
+namespace InventoryHub.Infrastructure.Repositories.EfCore;
 class CustomerEfRepository(ApplicationDbContext context) : ICustomerRepository
 {
     public async Task<List<Customer>> GetAllAsync()
