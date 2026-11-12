@@ -31,4 +31,9 @@ public class CustomerInMemoryRepository : ICustomerRepository
     {
         return Task.FromResult(_customers.Any(c => c.Id == id));
     }
+
+    public Task<Customer?> GetWithOrdersIdAsync(Guid id)
+    {
+        throw new NotImplementedException();
+    }
 }

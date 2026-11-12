@@ -5,7 +5,9 @@ using InventoryHub.Domain.Entities;
 
 namespace InventoryHub.Application.Services;
 
-public class CustomerService(ICustomerRepository customerRepository) : ICustomerService
+public class CustomerService(
+    ICustomerRepository customerRepository
+) : ICustomerService
 {
     public async Task<List<CustomerDto>> GetAllAsync()
     {
@@ -51,5 +53,17 @@ public class CustomerService(ICustomerRepository customerRepository) : ICustomer
             LastName = newCustomer.LastName,
             Email = newCustomer.Email
         };
+    }
+
+
+    public async Task<decimal> GetRevenueByCustomer(Guid id)
+    {
+        var customer = await customerRepository.GetWithOrdersIdAsync(id);
+        if (customer == null)
+        {
+            throw new NotFoundException(" There no customer with such id");
+        }
+
+        return customer.Orders.Sum(o => o.OrderItems.Sum(oi => oi.Quantity * oi.UnitPriceInOrder));
     }
 }

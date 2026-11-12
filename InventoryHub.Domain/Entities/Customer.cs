@@ -10,6 +10,8 @@ public class Customer
 
     public required string Email { get; set; }
 
+    public List<Order> Orders { get; set; } = new List<Order>();
+
     public static Customer Create(
         string firstName,
         string lastName,

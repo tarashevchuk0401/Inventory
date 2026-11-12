@@ -26,4 +26,9 @@ public class OrderInMemoryRepository : IOrderRepository
         _orders.Add(order);
         return Task.CompletedTask;
     }
+
+    public Task<List<Order>> GetOrderItemsByCustomer(Guid id)
+    {
+        throw new NotImplementedException();
+    }
 }

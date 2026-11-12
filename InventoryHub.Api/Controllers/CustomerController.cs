@@ -22,4 +22,10 @@ public class CustomerController(ICustomerService customerService) : ControllerBa
     {
         return customerService.AddAsync(dto);
     }
+
+    [HttpGet("revenueByuCustomer/{id}")]
+    public Task<decimal> GetRevenueByCustomer(Guid id)
+    {
+        return customerService.GetRevenueByCustomer(id);
+    }
 }

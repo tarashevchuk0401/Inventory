@@ -26,4 +26,12 @@ class CustomerEfRepository(ApplicationDbContext context) : ICustomerRepository
     {
         return await context.Customers.AnyAsync(c => c.Id == id);
     }
+
+    public async Task<Customer?> GetWithOrdersIdAsync(Guid id)
+    {
+        return await context.Customers
+            .Include(c => c.Orders)
+            .ThenInclude(o => o.OrderItems)
+            .FirstOrDefaultAsync(c => c.Id == id);
+    }
 }
