@@ -11,7 +11,7 @@ public class OrderInMemoryRepository : IOrderRepository
         Order.Create(Guid.NewGuid())
     };
 
-    public Task<PaginationResponseDto<Order>> GetAllAsync(PaginationRequestDto request)
+    public Task<PaginationResponseDto<Order>> GetAllAsync(PaginationRequestDto<OrderSortBy> request)
     {
         throw new NotImplementedException();
     }

@@ -8,6 +8,8 @@ public static class SwaggerExtensions
     {
         services.AddSwaggerGen(options =>
         {
+            options.UseInlineDefinitionsForEnums();
+
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Name = "Authorization",

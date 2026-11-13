@@ -13,7 +13,7 @@ public class OrderService(
     IProductRepository productRepository,
     IUnitOfWork unitOfWork) : IOrderService
 {
-    public async Task<PaginationResponseDto<OrderDto>> GetAllAsync(PaginationRequestDto request)
+    public async Task<PaginationResponseDto<OrderDto>> GetAllAsync(PaginationRequestDto<OrderSortBy>  request)
     {
         var response = await orderRepository.GetAllAsync(request);
 

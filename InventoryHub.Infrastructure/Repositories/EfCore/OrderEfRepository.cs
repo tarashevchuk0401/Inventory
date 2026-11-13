@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using InventoryHub.Application.Repositories;
 using InventoryHub.Domain.Entities;
 using InventoryHub.Infrastructure.Persistance;
@@ -6,16 +7,22 @@ using Microsoft.EntityFrameworkCore;
 
 class OrderEfRepository(ApplicationDbContext context) : IOrderRepository
 {
-    public async Task<PaginationResponseDto<Order>> GetAllAsync(PaginationRequestDto request)
+    public async Task<PaginationResponseDto<Order>> GetAllAsync(PaginationRequestDto<OrderSortBy> request)
     {
+        IQueryable<Order> query = context.Orders;
+        query = (request.SortBy, request.Direction) switch
+        {
+            (OrderSortBy.CustomerId, ListSortDirection.Descending) => query.OrderByDescending(o => o.CustomerId),
+            (OrderSortBy.CustomerId, _) => query.OrderBy(o => o.CustomerId),
+            (OrderSortBy.OrderDate, ListSortDirection.Descending) => query.OrderByDescending(o => o.OrderDate),
+            _ => query.OrderBy(o => o.OrderDate),
+        };
         var skip = (request.Page - 1) * request.ItemsOnPage;
-        var orders = await context.Orders
-            .OrderBy(o => o.OrderDate)
+        var totalOrders = await context.Orders.CountAsync();
+        var orders = await query
             .Skip(skip)
             .Take(request.ItemsOnPage)
             .ToListAsync();
-
-        var totalOrders = await context.Orders.CountAsync();
 
         return new PaginationResponseDto<Order>
         {
