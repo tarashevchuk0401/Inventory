@@ -6,9 +6,23 @@ using Microsoft.EntityFrameworkCore;
 
 class OrderEfRepository(ApplicationDbContext context) : IOrderRepository
 {
-    public async Task<List<Order>> GetAllAsync()
+    public async Task<PaginationResponseDto<Order>> GetAllAsync(PaginationRequestDto request)
     {
-        return await context.Orders.ToListAsync();
+        var skip = (request.Page - 1) * request.ItemsOnPage;
+        var orders = await context.Orders
+            .OrderBy(o => o.OrderDate)
+            .Skip(skip)
+            .Take(request.ItemsOnPage)
+            .ToListAsync();
+
+        var totalOrders = await context.Orders.CountAsync();
+
+        return new PaginationResponseDto<Order>
+        {
+            Items = orders,
+            Page = request.Page,
+            Total = totalOrders,
+        };
     }
 
     public async Task<Order?> GetByIdAsync(Guid id)

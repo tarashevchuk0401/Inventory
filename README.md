@@ -58,8 +58,8 @@ InventoryHub.Domain           — plain entities, no dependencies
   - [x] Order summary projection — per-`Order` `{ ItemCount, Total }` via nested aggregates (`Count()`/`Sum()`) over `Order.OrderItems`
     - [x] Products never ordered — anti-join (`!Any()`) of `Products` against `OrderItems`
     - [X] Top-selling products — `GroupBy(ProductId)` + `Sum(Quantity)` + `OrderByDescending` + `Take(n)`, joined back to `Product` for the name
-    - [ ] Revenue by customer — `OrderItem → Order → CustomerId`, sum `Quantity * UnitPriceInOrder` grouped by customer
-    - [ ] Paging — `Skip`/`Take` on `Product.GetAllAsync`, with explicit `OrderBy` (demonstrate the undefined-order bug first, then fix it)
+    - [x] Revenue by customer — `OrderItem → Order → CustomerId`, sum `Quantity * UnitPriceInOrder` grouped by customer
+    - [x] Paging — `Skip`/`Take` on `Product.GetAllAsync`, with explicit `OrderBy` (demonstrate the undefined-order bug first, then fix it)
 - [ ] Add mapper (Mapperly)
 - [ ] xUnit tests (`InventoryHub.Tests`), Repository/Service pattern formalized
 - [x] Dockerfile + docker-compose with PostgreSQL

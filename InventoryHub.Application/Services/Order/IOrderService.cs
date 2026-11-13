@@ -4,7 +4,7 @@ namespace InventoryHub.Application.Services;
 
 public interface IOrderService
 {
-    Task<List<OrderDto>> GetAllAsync();
+    Task<PaginationResponseDto<OrderDto>> GetAllAsync(PaginationRequestDto request);
     Task<OrderDto> GetById(Guid id);
 
     Task<OrderDto> AddAsync(CreateOrderDto dto);

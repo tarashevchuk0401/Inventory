@@ -11,9 +11,9 @@ public class OrderInMemoryRepository : IOrderRepository
         Order.Create(Guid.NewGuid())
     };
 
-    public Task<List<Order>> GetAllAsync()
+    public Task<PaginationResponseDto<Order>> GetAllAsync(PaginationRequestDto request)
     {
-        return Task.FromResult(_orders);
+        throw new NotImplementedException();
     }
 
     public Task<Order?> GetByIdAsync(Guid id)

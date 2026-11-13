@@ -9,7 +9,10 @@ namespace InventoryHub.Api.Controllers;
 public class OrderController(IOrderService orderService) : ControllerBase
 {
     [HttpGet("getAll")]
-    public Task<List<OrderDto>> GetAll() => orderService.GetAllAsync();
+    public Task<PaginationResponseDto<OrderDto>> GetAll([FromQuery] PaginationRequestDto request)
+    {
+        return orderService.GetAllAsync(request);
+    }
 
     [HttpGet("{id}")]
     public Task<OrderDto> GetOrder(Guid id)
@@ -28,5 +31,4 @@ public class OrderController(IOrderService orderService) : ControllerBase
     {
         return orderService.GetOrderSummary(id);
     }
-
 }

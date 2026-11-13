@@ -13,19 +13,23 @@ public class OrderService(
     IProductRepository productRepository,
     IUnitOfWork unitOfWork) : IOrderService
 {
-    public async Task<List<OrderDto>> GetAllAsync()
+    public async Task<PaginationResponseDto<OrderDto>> GetAllAsync(PaginationRequestDto request)
     {
-        var all = await orderRepository.GetAllAsync();
+        var response = await orderRepository.GetAllAsync(request);
 
-        return all
-            .Select(o => new OrderDto
-            {
-                Id = o.Id,
-                CustomerId = o.CustomerId,
-                OrderDate = o.OrderDate,
-                Status = o.Status
-            })
-            .ToList();
+        return new PaginationResponseDto<OrderDto>
+        {
+            Items = response.Items.Select(o => new OrderDto
+                {
+                    Id = o.Id,
+                    CustomerId = o.CustomerId,
+                    OrderDate = o.OrderDate,
+                    Status = o.Status
+                })
+                .ToList(),
+            Page = response.Page,
+            Total = response.Total,
+        };
     }
 
     public async Task<OrderDto> GetById(Guid id)
