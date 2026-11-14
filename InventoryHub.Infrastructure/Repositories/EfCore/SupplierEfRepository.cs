@@ -1,3 +1,4 @@
+using InventoryHub.Application.Exceptions;
 using InventoryHub.Application.Repositories;
 using InventoryHub.Domain.Entities;
 using InventoryHub.Infrastructure.Persistance;
@@ -19,6 +20,18 @@ class SupplierEfRepository(ApplicationDbContext context) : ISupplierRepository
     public async Task AddAsync(Supplier supplier)
     {
         context.Suppliers.Add(supplier);
+        await context.SaveChangesAsync();
+    }
+
+    public async Task DeleteAsync(Guid id)
+    {
+        var supplier = await GetByIdAsync(id);
+        if (supplier == null)
+        {
+            throw new NotFoundException("There no such supplier");
+        }
+
+        context.Suppliers.Remove(supplier);
         await context.SaveChangesAsync();
     }
 }

@@ -25,7 +25,7 @@ A small business tracks products it sells, the suppliers it buys them from, and 
 | `OrderItem` | A line on an order | `Id`, `OrderId`, `ProductId`, `Quantity`, `UnitPriceAtOrder` |
 | `User` | Auth identity (not a storefront concept) | `Id`, `FirstName`, `LastName`, `Email`, `HashedPassword`, `Role` |
 
-`Product`, `Supplier`, and `Customer` currently exist as empty stub classes in `InventoryHub.Domain/Entities` — fields above are the plan, not yet implemented. `User` is fully built (see Build plan).
+All entities above are fully implemented (not stubs). `Order.Status` and `Product.Category` are enums (`OrderStatus`: `Pending`/`Fulfilled`/`Cancelled`; `ProductCategories`: `Phone`/`Laptop`/`Console`/`Headphones`/`Tablet`/`PC`/`Other`).
 
 ## Architecture
 
@@ -35,7 +35,7 @@ Clean/Onion-style layering, four projects, dependencies flow inward:
 InventoryHub.Api             — ASP.NET Core Web API (controllers), DI wiring, Swagger
    → InventoryHub.Application
    → InventoryHub.Infrastructure
-InventoryHub.Infrastructure   — repository implementations (in-memory now, EF Core + PostgreSQL later)
+InventoryHub.Infrastructure   — repository implementations (EF Core + PostgreSQL)
    → InventoryHub.Domain
    → InventoryHub.Application
 InventoryHub.Application      — use cases / services, repository interfaces
@@ -43,35 +43,55 @@ InventoryHub.Application      — use cases / services, repository interfaces
 InventoryHub.Domain           — plain entities, no dependencies
 ```
 
+Repositories are EF Core + PostgreSQL only — the earlier in-memory `List<T>` implementations were removed once the EF repositories covered every entity.
+
 ## Build plan
 
 - [x] Solution scaffold — 4 projects, references wired
 - [x] Swagger UI
-- [x] `User` entity + `GET /api/users` — first vertical slice (in-memory repo), to see the full `Controller → Service → IRepository → Repository` flow and where the DI container substitutes the concrete implementation
+- [x] `User` entity + `GET /api/users` — first vertical slice, to see the full `Controller → Service → IRepository → Repository` flow and where the DI container substitutes the concrete implementation
 - [x] JWT authentication — hashed passwords, login endpoint issuing a JWT, authenticated-by-default fallback policy with `[AllowAnonymous]` on sign-up/sign-in
-- [x] `Product` / `Supplier` / `Customer` entities fleshed out (currently empty stubs) and their CRUD endpoints
-- [ ] `Order` / `OrderItem` entities — order placement (decrement stock, compute total), the main feature
+- [x] `Product` / `Supplier` / `Customer` entities fleshed out and their CRUD endpoints (create/read so far — update/delete are a practice task below)
+- [x] `Order` / `OrderItem` entities — order placement (decrement stock, compute total)
 - [x] Swap in-memory repositories for EF Core + PostgreSQL, first migration
-- [ ] Entity relationships (Orders↔OrderItems↔Products, many-to-many Products↔Suppliers), LINQ-to-Entities reporting queries
-  - [X] Low-stock alert — `IProductRepository.GetLowStockAsync(threshold)`, `Where` + `OrderBy` ascending on `StockQuantity`
-  - [X] Add order statuses and product categories.  
+- [x] Global exception-handling middleware (`AppExceptionHandler` + `AppException` hierarchy: `BadRequest`/`Unauthorized`/`AccessDenied`/`NotFound`/`Conflict`, mapped to ProblemDetails)
+- [x] Entity relationships (Orders↔OrderItems↔Products), LINQ-to-Entities reporting queries
+  - [x] Low-stock alert — `IProductRepository.GetLowStockAsync(threshold)`, `Where` + `OrderBy` ascending on `StockQuantity`
+  - [x] Order statuses and product categories
   - [x] Order summary projection — per-`Order` `{ ItemCount, Total }` via nested aggregates (`Count()`/`Sum()`) over `Order.OrderItems`
     - [x] Products never ordered — anti-join (`!Any()`) of `Products` against `OrderItems`
-    - [X] Top-selling products — `GroupBy(ProductId)` + `Sum(Quantity)` + `OrderByDescending` + `Take(n)`, joined back to `Product` for the name
+    - [x] Top-selling products — `GroupBy(ProductId)` + `Sum(Quantity)` + `OrderByDescending` + `Take(n)`, joined back to `Product` for the name
     - [x] Revenue by customer — `OrderItem → Order → CustomerId`, sum `Quantity * UnitPriceInOrder` grouped by customer
-    - [x] Paging — `Skip`/`Take` on `Product.GetAllAsync`, with explicit `OrderBy` (demonstrate the undefined-order bug first, then fix it)
+    - [x] Paging — generic `PaginationRequestDto`/`PaginationRequestDto<TSortBy>`, applied to `Product`/`Order`/`Customer` listings
+- [ ] Many-to-many Products↔Suppliers (currently one-to-many via `Product.SupplierId`) — see practice tasks below
 - [ ] Add mapper (Mapperly)
 - [ ] xUnit tests (`InventoryHub.Tests`), Repository/Service pattern formalized
 - [x] Dockerfile + docker-compose with PostgreSQL
 - [ ] Angular frontend consuming this API
 - [ ] Full docker-compose (API + PostgreSQL + frontend), polish
 
+## Practice tasks
+
+Picked to drill three things: EF Core joins/relationships, custom exceptions, and writing endpoints end-to-end (`Controller → Service → Repository`).
+
+1. **Delete a `Supplier`, guarded by a join** — add `DELETE /api/suppliers/{id}`. Before deleting, query whether any `Product` still references that `SupplierId`; if so, throw a new `ConflictException` ("cannot delete a supplier with existing products") instead of deleting. Exercises: a FK-aware query (join/`Any()`), a new failure path through the existing `AppException` pipeline, and a full endpoint from controller down to repository.
+
+2. **Update endpoints for `Product` and `Customer`** — add `PUT /api/products/{id}` and `PUT /api/customers/{id}`. Throw `NotFoundException` if the id doesn't exist; for `Product`, also throw `BadRequestException` if the incoming price or stock quantity is negative. Exercises: validation exceptions beyond just 404s, and the update half of CRUD you haven't written yet.
+
+3. **Finish `OrderItemController`'s commented-out `AddOrderItem`** — add an item to an *existing* order. Reuse the stock-decrement + insufficient-stock `ConflictException` logic already in `OrderService.AddAsync`, but also throw a new exception (e.g. `ConflictException`) if the target order's `Status` isn't `Pending` (no adding items to a `Fulfilled`/`Cancelled` order). Exercises: reusing/extracting shared logic, a status-based business rule, and completing a half-built endpoint.
+
+4. **`PATCH /api/orders/{id}/status`** — transition an order's status (e.g. `Pending → Fulfilled` or `Pending → Cancelled`). Reject illegal transitions (e.g. `Cancelled → Fulfilled`) with `ConflictException`. On cancellation, restock every `OrderItem`'s `Quantity` back onto its `Product` — this means loading `Order.OrderItems` and joining back to `Product` to increment `StockQuantity` for each one. Exercises: a multi-table write inside one transaction (`IUnitOfWork.SaveChangesAsync`), joining across `Order → OrderItem → Product`, and a guarded state-machine-style exception.
+
+5. **Real many-to-many: `Product` ↔ `Supplier`** — a product can be supplied by more than one supplier (at possibly different prices). Replace `Product.SupplierId` with a join entity (e.g. `ProductSupplier { ProductId, SupplierId, Price }`), configure it in EF (`HasMany().WithMany().UsingEntity<ProductSupplier>(...)` or an explicit join entity), and generate a migration. Then add `GET /api/products/{id}/suppliers` returning each supplier plus their price for that product — a genuine three-table join (`Product` ⋈ `ProductSupplier` ⋈ `Supplier`), not just a FK lookup. This is the biggest task — good for practicing EF Core many-to-many config specifically.
+
+Suggested order: 1 → 2 → 3 → 4 → 5 (exceptions get progressively more interesting, joins go from a lookup to a real many-to-many).
+
 ## Running locally
 
 ### Prerequisites
 
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
-- PostgreSQL running locally on port `5432` (only needed if you want the database-backed `Product` repository — see [Switching between in-memory and database](#switching-between-in-memory-and-database) below; everything else still works without it)
+- PostgreSQL running locally on port `5432` — all repositories are EF Core + PostgreSQL, there's no in-memory fallback
 
 ### 1. Configure secrets
 
@@ -103,23 +123,3 @@ dotnet run --project InventoryHub.Api
 
 Swagger UI: http://localhost:5184/swagger/index.html
 `.http` request examples: `InventoryHub.Api/InventoryHub.Api.http`
-
-### Switching between in-memory and database
-
-`IProductRepository` can be backed by either an in-memory `List<T>` (seeded with sample data, no setup required) or EF Core + PostgreSQL, controlled by the `Persistence:UseDatabase` setting:
-
-| | `UseDatabase` | Where it's set |
-|---|---|---|
-| In-memory (default outside Development) | `false` | `InventoryHub.Api/appsettings.json` |
-| Database (default for local `dotnet run`) | `true` | `InventoryHub.Api/appsettings.Development.json` |
-
-To override it for a single run without editing any file:
-
-```bash
-Persistence__UseDatabase=false dotnet run --project InventoryHub.Api   # in-memory
-Persistence__UseDatabase=true  dotnet run --project InventoryHub.Api   # database
-```
-
-In Rider/Visual Studio, pick the **`http (In-Memory)`** or **`http (Database)`** launch profile from the run configuration dropdown (defined in `InventoryHub.Api/Properties/launchSettings.json`) instead of using an env var.
-
-The other five repositories (`Supplier`, `Customer`, `Order`, `OrderItem`, `User`) are still in-memory only — this flag currently only applies to `Product`.

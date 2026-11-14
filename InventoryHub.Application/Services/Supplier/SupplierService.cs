@@ -49,4 +49,9 @@ public class SupplierService(ISupplierRepository supplierRepository) : ISupplier
             Name = newSupplier.Name
         };
     }
+
+    public async Task DeleteSupplier(Guid id)
+    {
+        await supplierRepository.DeleteAsync(id);
+    }
 }

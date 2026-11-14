@@ -22,4 +22,10 @@ public class SupplierController(ISupplierService supplierService) : ControllerBa
     {
         return supplierService.AddAsync(dto);
     }
+
+    [HttpDelete("delete")]
+    public Task DeleteSupplier(Guid id)
+    {
+        return supplierService.DeleteSupplier(id);
+    }
 }
