@@ -9,19 +9,22 @@ public class CustomerService(
     ICustomerRepository customerRepository
 ) : ICustomerService
 {
-    public async Task<List<CustomerDto>> GetAllAsync()
+    public async Task<PaginationResponseDto<CustomerDto>> GetAll(PaginationRequestDto request)
     {
-        var all = await customerRepository.GetAllAsync();
+        var response = await customerRepository.GetAllAsync(request);
 
-        return all
-            .Select(c => new CustomerDto
+        return new PaginationResponseDto<CustomerDto>
+        {
+            Items = response.Items.Select(o => new CustomerDto
             {
-                Id = c.Id,
-                FirstName = c.FirstName,
-                LastName = c.LastName,
-                Email = c.Email
-            })
-            .ToList();
+                Id = o.Id,
+                Email = o.Email,
+                FirstName = o.FirstName,
+                LastName = o.LastName
+            }).ToList(),
+            Page = response.Page,
+            Total = response.Total
+        };
     }
 
     public async Task<CustomerDto> GetById(Guid id)

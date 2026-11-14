@@ -9,7 +9,10 @@ namespace InventoryHub.Api.Controllers;
 public class CustomerController(ICustomerService customerService) : ControllerBase
 {
     [HttpGet("getAll")]
-    public Task<List<CustomerDto>> GetAll() => customerService.GetAllAsync();
+    public Task<PaginationResponseDto<CustomerDto>> GetAll([FromQuery] PaginationRequestDto request)
+    {
+        return customerService.GetAll(request);
+    }
 
     [HttpGet("{id}")]
     public Task<CustomerDto> GetCustomer(Guid id)

@@ -4,11 +4,24 @@ using InventoryHub.Infrastructure.Persistance;
 using Microsoft.EntityFrameworkCore;
 
 namespace InventoryHub.Infrastructure.Repositories.EfCore;
+
 class CustomerEfRepository(ApplicationDbContext context) : ICustomerRepository
 {
-    public async Task<List<Customer>> GetAllAsync()
+    public async Task<PaginationResponseDto<Customer>> GetAllAsync(PaginationRequestDto request)
     {
-        return await context.Customers.ToListAsync();
+        var skip = (request.Page - 1) * request.ItemsOnPage;
+        var customers = await context.Customers
+            .Skip(skip)
+            .Take(request.ItemsOnPage)
+            .ToListAsync();
+        var total = await context.Customers.CountAsync();
+
+        return new PaginationResponseDto<Customer>
+        {
+            Items = customers,
+            Page = request.Page,
+            Total = total,
+        };
     }
 
     public async Task<Customer?> GetByIdAsync(Guid id)

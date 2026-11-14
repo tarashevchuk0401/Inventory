@@ -4,7 +4,7 @@ namespace InventoryHub.Application.Repositories;
 
 public interface ICustomerRepository
 {
-    Task<List<Customer>> GetAllAsync();
+    Task<PaginationResponseDto<Customer>> GetAllAsync(PaginationRequestDto request);
     Task<Customer?> GetByIdAsync(Guid id);
     Task<Customer?> GetWithOrdersIdAsync(Guid id);
     Task AddAsync(Customer customer);

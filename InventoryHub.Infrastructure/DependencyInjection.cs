@@ -36,7 +36,6 @@ public static class DependencyInjection
             services.AddSingleton<IProductRepository, ProductInMemoryRepository>();
             services.AddSingleton<IUserRepository, UserInMemoryRepository>();
             services.AddSingleton<ISupplierRepository, SupplierInMemoryRepository>();
-            services.AddSingleton<ICustomerRepository, CustomerInMemoryRepository>();
             services.AddSingleton<IOrderRepository, OrderInMemoryRepository>();
             services.AddSingleton<IOrderItemRepository, OrderItemInMemoryRepository>();
             services.AddSingleton<IUnitOfWork, InMemoryUnitOfWork>();
