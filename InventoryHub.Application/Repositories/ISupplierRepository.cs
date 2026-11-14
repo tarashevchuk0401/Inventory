@@ -8,5 +8,5 @@ public interface ISupplierRepository
     Task<Supplier?> GetByIdAsync(Guid id);
     Task AddAsync(Supplier supplier);
 
-    Task DeleteAsync(Guid id);
+    Task  DeleteAsync(Supplier supplier);
 }

@@ -9,6 +9,8 @@ public interface IProductRepository
 
     Task<Product?> GetByIdAsync(Guid id);
 
+    Task<List<Product>> GetBySupplier(Guid id);
+
     Task<Product?> DecrementStocks(Guid id, int quantity = 1);
 
     Task AddAsync(Product product);
@@ -17,5 +19,5 @@ public interface IProductRepository
 
     Task<bool> IsExistAsync(Guid id);
 
-    Task<List<Product>>  GetNeverOrdered();
+    Task<List<Product>> GetNeverOrdered();
 }

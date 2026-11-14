@@ -23,15 +23,9 @@ class SupplierEfRepository(ApplicationDbContext context) : ISupplierRepository
         await context.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(Guid id)
+    public Task DeleteAsync(Supplier supplier)
     {
-        var supplier = await GetByIdAsync(id);
-        if (supplier == null)
-        {
-            throw new NotFoundException("There no such supplier");
-        }
-
         context.Suppliers.Remove(supplier);
-        await context.SaveChangesAsync();
+        return Task.CompletedTask;
     }
 }

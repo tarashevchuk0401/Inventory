@@ -17,6 +17,11 @@ public class ProductEfRepository(ApplicationDbContext context) : IProductReposit
         return await context.Products.FirstOrDefaultAsync(p => p.Id == id);
     }
 
+    public async Task<List<Product>> GetBySupplier(Guid id)
+    {
+        return await context.Products.Where(p => p.SupplierId == id).ToListAsync();
+    }
+
     public async Task<Product?> DecrementStocks(Guid id, int quantity = 1)
     {
         var product = await context.Products.FirstOrDefaultAsync(p => p.Id == id && p.StockQuantity >= quantity);

@@ -5,7 +5,10 @@ using InventoryHub.Domain.Entities;
 
 namespace InventoryHub.Application.Services;
 
-public class SupplierService(ISupplierRepository supplierRepository) : ISupplierService
+public class SupplierService(
+    ISupplierRepository supplierRepository,
+    IProductRepository productRepository,
+    IUnitOfWork unitOfWork) : ISupplierService
 {
     public async Task<List<SupplierDto>> GetAllAsync()
     {
@@ -52,6 +55,19 @@ public class SupplierService(ISupplierRepository supplierRepository) : ISupplier
 
     public async Task DeleteSupplier(Guid id)
     {
-        await supplierRepository.DeleteAsync(id);
+        var supplier = await supplierRepository.GetByIdAsync(id);
+        if (supplier == null)
+        {
+            throw new NotFoundException(" There are no supplier");
+        }
+
+        var products = await productRepository.GetBySupplier(id);
+        // if (products.Count > 0)
+        // {
+        //     throw new ConflictException("This supplier have product!");
+        // }
+
+        await supplierRepository.DeleteAsync(supplier);
+        await unitOfWork.SaveChangesAsync();
     }
 }
