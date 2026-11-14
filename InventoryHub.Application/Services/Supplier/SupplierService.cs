@@ -62,10 +62,10 @@ public class SupplierService(
         }
 
         var products = await productRepository.GetBySupplier(id);
-        // if (products.Count > 0)
-        // {
-        //     throw new ConflictException("This supplier have product!");
-        // }
+        if (products.Count > 0)
+        {
+            throw new ConflictException("This supplier have product!");
+        }
 
         await supplierRepository.DeleteAsync(supplier);
         await unitOfWork.SaveChangesAsync();
