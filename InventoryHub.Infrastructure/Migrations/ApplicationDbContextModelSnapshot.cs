@@ -180,7 +180,7 @@ namespace InventoryHub.Infrastructure.Migrations
             modelBuilder.Entity("InventoryHub.Domain.Entities.Order", b =>
                 {
                     b.HasOne("InventoryHub.Domain.Entities.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -197,7 +197,7 @@ namespace InventoryHub.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("InventoryHub.Domain.Entities.Product", "Product")
-                        .WithMany()
+                        .WithMany("OrderItems")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -212,13 +212,23 @@ namespace InventoryHub.Infrastructure.Migrations
                     b.HasOne("InventoryHub.Domain.Entities.Supplier", "Supplier")
                         .WithMany("Products")
                         .HasForeignKey("SupplierId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Supplier");
                 });
 
+            modelBuilder.Entity("InventoryHub.Domain.Entities.Customer", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
             modelBuilder.Entity("InventoryHub.Domain.Entities.Order", b =>
+                {
+                    b.Navigation("OrderItems");
+                });
+
+            modelBuilder.Entity("InventoryHub.Domain.Entities.Product", b =>
                 {
                     b.Navigation("OrderItems");
                 });

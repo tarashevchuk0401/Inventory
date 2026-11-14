@@ -16,4 +16,13 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     {
         configurationBuilder.Properties<Enum>().HaveConversion<string>();
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Product>()
+            .HasOne(p => p.Supplier)
+            .WithMany(s => s.Products)
+            .HasForeignKey(p => p.SupplierId)
+            .OnDelete(DeleteBehavior.Restrict);
+    }
 }
