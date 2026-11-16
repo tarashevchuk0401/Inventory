@@ -30,14 +30,20 @@ public class ProductController(IProductService productService) : ControllerBase
     }
 
     [HttpGet("neverOrdered")]
-    public async Task<List<ProductDto>>  GetNeverOrdered()
+    public async Task<List<ProductDto>> GetNeverOrdered()
     {
-       return await productService.GetNeverOrdered();
+        return await productService.GetNeverOrdered();
     }
 
     [HttpGet("topSelling")]
     public async Task<List<TopSellingDto>> GetTopSelling()
     {
-         return await productService.GetTopSelling();
+        return await productService.GetTopSelling();
+    }
+
+    [HttpPost("update")]
+    public Task<ProductDto> UpdateProduct(UpdateProductDto dto)
+    {
+        return productService.UpdateProduct(dto);
     }
 }

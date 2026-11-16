@@ -7,7 +7,9 @@ namespace InventoryHub.Application.Services;
 
 public class ProductService(
     IProductRepository productRepository,
-    IOrderItemRepository orderItemRepository
+    IOrderItemRepository orderItemRepository,
+    ISupplierRepository supplierRepository,
+    IUnitOfWork unitOfWork
 ) : IProductService
 {
     public async Task<ProductDto> GetById(Guid id)
@@ -114,5 +116,40 @@ public class ProductService(
                 Category = groupItem.Key.Category
             }
         }).ToList();
+    }
+
+    public async Task<ProductDto> UpdateProduct(UpdateProductDto dto)
+    {
+        var product = await productRepository.GetByIdAsync(dto.Id);
+        if (product == null)
+        {
+            throw new NotFoundException("There are no product");
+        }
+
+        var supplier = await supplierRepository.GetByIdAsync(dto.SupplierId);
+        if (supplier == null)
+        {
+            throw new NotFoundException("There are no such supplier");
+        }
+
+
+        product.Name = dto.Name;
+        product.Category = dto.Category;
+        product.Price = dto.Price;
+        product.StockQuantity = dto.StockQuantity;
+        product.SupplierId = dto.SupplierId;
+
+        await productRepository.UpdateProduct(product);
+        await unitOfWork.SaveChangesAsync();
+
+        return new ProductDto
+        {
+            Id = product.Id,
+            StockQuantity = product.StockQuantity,
+            Price = product.Price,
+            Name = product.Name,
+            SupplierId = product.SupplierId,
+            Category = product.Category
+        };
     }
 }

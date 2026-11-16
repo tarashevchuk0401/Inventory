@@ -11,7 +11,11 @@ public interface IProductService
     Task<ProductDto> AddAsync(CreateProductDto dto);
 
     Task<List<ProductDto>> GetLowStocks();
+
     // Task<List<ProductDto>> GetNeverOrdered();
-    Task<List<ProductDto>>  GetNeverOrdered();
-    Task<List<TopSellingDto>>  GetTopSelling();
+    Task<List<ProductDto>> GetNeverOrdered();
+
+    Task<List<TopSellingDto>> GetTopSelling();
+
+    Task<ProductDto> UpdateProduct(UpdateProductDto id);
 }

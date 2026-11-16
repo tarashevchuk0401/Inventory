@@ -46,7 +46,7 @@ public class ProductEfRepository(ApplicationDbContext context) : IProductReposit
 
     public async Task<bool> IsExistAsync(Guid id)
     {
-        return await context.Customers.AnyAsync(c => c.Id == id);
+        return await context.Products.AnyAsync(c => c.Id == id);
     }
 
     public async Task<List<Product>> GetNeverOrdered()
@@ -54,5 +54,11 @@ public class ProductEfRepository(ApplicationDbContext context) : IProductReposit
         return await context.Products
             .Where(p => p.OrderItems.Count() == 0)
             .ToListAsync();
+    }
+
+    public Task UpdateProduct(Product dto)
+    {
+        context.Products.Update(dto);
+        return Task.CompletedTask;
     }
 }

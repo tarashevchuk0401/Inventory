@@ -20,4 +20,7 @@ public interface IProductRepository
     Task<bool> IsExistAsync(Guid id);
 
     Task<List<Product>> GetNeverOrdered();
+
+    Task UpdateProduct(Product dto);
+
 }
