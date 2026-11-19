@@ -45,4 +45,10 @@ class OrderEfRepository(ApplicationDbContext context) : IOrderRepository
         context.Orders.Add(order);
         return Task.CompletedTask;
     }
+
+    public Task Update(Order order)
+    {
+        context.Orders.Update(order);
+        return Task.CompletedTask;
+    }
 }

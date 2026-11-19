@@ -8,4 +8,6 @@ public interface IOrderRepository
     Task<PaginationResponseDto<Order>> GetAllAsync(PaginationRequestDto<OrderSortBy>  request);
     Task<Order?> GetByIdAsync(Guid id);
     Task AddAsync(Order order);
+    Task Update(Order order);
+
 }

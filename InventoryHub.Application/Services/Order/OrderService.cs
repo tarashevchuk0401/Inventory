@@ -3,6 +3,7 @@ using InventoryHub.Application.Dto.OrderItem;
 using InventoryHub.Application.Exceptions;
 using InventoryHub.Application.Repositories;
 using InventoryHub.Domain.Entities;
+using InventoryHub.Domain.Enums;
 
 namespace InventoryHub.Application.Services;
 
@@ -13,7 +14,7 @@ public class OrderService(
     IProductRepository productRepository,
     IUnitOfWork unitOfWork) : IOrderService
 {
-    public async Task<PaginationResponseDto<OrderDto>> GetAllAsync(PaginationRequestDto<OrderSortBy>  request)
+    public async Task<PaginationResponseDto<OrderDto>> GetAllAsync(PaginationRequestDto<OrderSortBy> request)
     {
         var response = await orderRepository.GetAllAsync(request);
 
@@ -118,5 +119,48 @@ public class OrderService(
             TotalSum = sum,
             ItemsCount = orderItems.Count()
         };
+    }
+
+    public async Task UpdateOrderStatus(Guid id, UpdateOrderStatusDto dto)
+    {
+        var order = await orderRepository.GetByIdAsync(id);
+        if (order == null)
+        {
+            throw new NotFoundException("There are no order");
+        }
+
+        if (order.Status != OrderStatus.Pending)
+        {
+            throw new ConflictException("Order is finished");
+        }
+
+        if (dto.Status == OrderStatus.Fulfilled)
+        {
+            order.Status = dto.Status;
+            await orderRepository.Update(order);
+        }
+
+        if (dto.Status == OrderStatus.Cancelled && order.Status == OrderStatus.Pending)
+        {
+            var orderItems = order.OrderItems;
+            foreach (var orderItem in orderItems)
+            {
+                var product = await productRepository.GetByIdAsync(orderItem.ProductId);
+                if (product == null)
+                {
+                    throw new NotFoundException("No product");
+                }
+
+                product.StockQuantity += orderItem.Quantity;
+                await productRepository.UpdateProduct(product);
+            }
+
+            order.Status = dto.Status;
+            await orderRepository.Update(order);
+        }
+
+        await unitOfWork.SaveChangesAsync();
+
+        return;
     }
 }

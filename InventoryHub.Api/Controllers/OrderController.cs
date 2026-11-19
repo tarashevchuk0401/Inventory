@@ -31,4 +31,11 @@ public class OrderController(IOrderService orderService) : ControllerBase
     {
         return orderService.GetOrderSummary(id);
     }
+
+    // How to make id required?
+    [HttpPatch("updateStatus")]
+    public Task UpdateOrderStatus([FromQuery] Guid id, UpdateOrderStatusDto dto)
+    {
+        return orderService.UpdateOrderStatus(id, dto);
+    }
 }
