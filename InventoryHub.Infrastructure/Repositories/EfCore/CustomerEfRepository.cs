@@ -47,4 +47,9 @@ class CustomerEfRepository(ApplicationDbContext context) : ICustomerRepository
             .ThenInclude(o => o.OrderItems)
             .FirstOrDefaultAsync(c => c.Id == id);
     }
+    public Task UpdateCustomer(Customer customer)
+    {
+        context.Customers.Update(customer);
+        return Task.CompletedTask;
+    }
 }

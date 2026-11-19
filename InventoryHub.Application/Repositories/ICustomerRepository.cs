@@ -9,4 +9,5 @@ public interface ICustomerRepository
     Task<Customer?> GetWithOrdersIdAsync(Guid id);
     Task AddAsync(Customer customer);
     Task<bool> IsExistAsync(Guid id);
+    Task UpdateCustomer(Customer customer);
 }

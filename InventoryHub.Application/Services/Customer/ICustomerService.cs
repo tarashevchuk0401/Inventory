@@ -8,4 +8,5 @@ public interface ICustomerService
     Task<CustomerDto> GetById(Guid id);
     Task<CustomerDto> AddAsync(CreateCustomerDto dto);
     Task<decimal> GetRevenueByCustomer(Guid id);
+    Task<CustomerDto> UpdateProduct(UpdateCustomerDto dto);
 }

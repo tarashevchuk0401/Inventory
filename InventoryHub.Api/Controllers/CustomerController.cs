@@ -31,4 +31,10 @@ public class CustomerController(ICustomerService customerService) : ControllerBa
     {
         return customerService.GetRevenueByCustomer(id);
     }
+
+    [HttpPut("update")]
+    public Task<CustomerDto> UpdateProduct(UpdateCustomerDto dto)
+    {
+        return customerService.UpdateProduct(dto);
+    }
 }

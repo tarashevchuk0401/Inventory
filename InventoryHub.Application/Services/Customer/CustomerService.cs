@@ -6,7 +6,8 @@ using InventoryHub.Domain.Entities;
 namespace InventoryHub.Application.Services;
 
 public class CustomerService(
-    ICustomerRepository customerRepository
+    ICustomerRepository customerRepository,
+    IUnitOfWork unitOfWork
 ) : ICustomerService
 {
     public async Task<PaginationResponseDto<CustomerDto>> GetAll(PaginationRequestDto request)
@@ -68,5 +69,33 @@ public class CustomerService(
         }
 
         return customer.Orders.Sum(o => o.OrderItems.Sum(oi => oi.Quantity * oi.UnitPriceInOrder));
+    }
+
+    public async Task<CustomerDto> UpdateProduct(UpdateCustomerDto dto)
+    {
+        var customer = await customerRepository.IsExistAsync(dto.Id);
+        if (!customer)
+        {
+            throw new NotFoundException("There are no customer");
+        }
+
+        var updatedCustomer = new Customer
+        {
+            Id = dto.Id,
+            FirstName = dto.FirstName,
+            LastName = dto.LastName,
+            Email = dto.Email,
+        };
+
+        await customerRepository.UpdateCustomer(updatedCustomer);
+        await unitOfWork.SaveChangesAsync();
+
+        return new CustomerDto
+        {
+            Id = updatedCustomer.Id,
+            FirstName = updatedCustomer.FirstName,
+            LastName = updatedCustomer.LastName,
+            Email = updatedCustomer.Email
+        };
     }
 }
